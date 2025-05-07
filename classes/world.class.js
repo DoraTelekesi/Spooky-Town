@@ -1,22 +1,11 @@
 class World {
   character = new Character();
-  enemies = [
-    new Enemy("img/Wraith_01/Idle/Wraith_01_Idle_000.png", "wraith-1"),
-    new Enemy("img/Wraith_02/Idle/Wraith_02_Idle_000.png", "wraith-2"),
-    new Enemy("img/Wraith_03/Idle/Wraith_03_Idle_000.png", "wraith-3"),
-  ];
-  backgrounds = [
-    new BackgroundObject("img/Background/1_game_background/layers/1.png", 0, 0),
-    new BackgroundObject("img/Background/1_game_background/layers/2.png", 0, 0),
-    new BackgroundObject("img/Background/1_game_background/layers/3.png", 0, 0),
-    new BackgroundObject("img/Background/1_game_background/layers/4.png", 0, 0),
-    new BackgroundObject("img/Background/1_game_background/layers/5.png", 0, 0),
-    new BackgroundObject("img/Background/1_game_background/layers/6.png", 0, 0),
-    new BackgroundObject("img/Background/1_game_background/layers/7.png", 0, 0),
-  ];
+  level = level1;
+
   canvas;
   ctx;
   keyboard;
+  camera_x = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -32,10 +21,14 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.addObjectsToMap(this.backgrounds);
-    this.addToMap(this.character);
+    this.ctx.translate(this.camera_x, 0);
+    this.addObjectsToMap(this.level.backgroundObjects);
 
-    this.addObjectsToMap(this.enemies);
+    this.addToMap(this.character);
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.enemies);
+
+    this.ctx.translate(-this.camera_x, 0);
 
     let self = this;
     requestAnimationFrame(function () {
@@ -47,7 +40,8 @@ class World {
     if (mo.otherDirection) {
       this.flipImage(mo);
     }
-    this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+    mo.draw(this.ctx);
+
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
