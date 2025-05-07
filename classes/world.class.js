@@ -1,9 +1,9 @@
 class World {
   character = new Character();
   enemies = [
-    new Enemy("img/Wraith_01/Idle/Wraith_01_Idle_000.png"),
-    new Enemy("img/Wraith_02/Idle/Wraith_02_Idle_000.png"),
-    new Enemy("img/Wraith_03/Idle/Wraith_03_Idle_000.png"),
+    new Enemy("img/Wraith_01/Idle/Wraith_01_Idle_000.png", "wraith-1"),
+    new Enemy("img/Wraith_02/Idle/Wraith_02_Idle_000.png", "wraith-2"),
+    new Enemy("img/Wraith_03/Idle/Wraith_03_Idle_000.png", "wraith-3"),
   ];
   backgrounds = [
     new BackgroundObject("img/Background/1_game_background/layers/1.png", 0, 0),
@@ -16,14 +16,22 @@ class World {
   ];
   canvas;
   ctx;
+  keyboard;
 
-  constructor(canvas) {
+  constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
+    this.keyboard = keyboard;
     this.draw();
+    this.setWorld();
+  }
+
+  setWorld() {
+    this.character.world = this;
   }
 
   draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.addObjectsToMap(this.backgrounds);
     this.addToMap(this.character);
 
