@@ -3,7 +3,13 @@ class Enemy extends MovableObject {
   height = 170;
   y = 300;
   otherDirection = true;
-  // speed = 0.35;
+  speed;
+  offset = {
+    top: 10,
+    left: 40,
+    right: 80,
+    bottom: 40,
+  };
   IMAGES_WALKING_WRAITH_1 = [
     "img/Wraith_01/Walking/Wraith_01_Moving Forward_000.png",
     "img/Wraith_01/Walking/Wraith_01_Moving Forward_001.png",
@@ -54,8 +60,8 @@ class Enemy extends MovableObject {
     this.loadImages(this.IMAGES_WALKING_WRAITH_1);
     this.loadImages(this.IMAGES_WALKING_WRAITH_2);
     this.loadImages(this.IMAGES_WALKING_WRAITH_3);
-    this.x = 200 + Math.random() * 400;
-    this.speed = 0.005 + Math.random() * 0.5;
+    this.x = 200 + Math.random() * 2600;
+    this.speed = 0.05 + Math.random() * 0.5;
     this.animate();
   }
 

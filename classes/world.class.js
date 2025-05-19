@@ -1,22 +1,38 @@
 class World {
   character = new Character();
   level = level1;
-
   canvas;
   ctx;
   keyboard;
+  world;
   camera_x = 0;
 
-  constructor(canvas, keyboard) {
+  constructor(canvas, keyboard,world) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.world = world;
     this.draw();
     this.setWorld();
+    this.run();
   }
 
   setWorld() {
     this.character.world = this;
+  }
+  run() {
+    this.character.setStoppableInterval(() => {
+      this.checkCollisions();
+    }, 300);
+  }
+
+  checkCollisions() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        this.character.hit();
+        console.log("collided");
+      }
+    });
   }
 
   draw() {
@@ -41,7 +57,8 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-
+    // mo.drawFrame(this.ctx);
+    mo.drawFrameOffset(this.ctx);
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }

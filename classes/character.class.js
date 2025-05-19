@@ -4,6 +4,30 @@ class Character extends MovableObject {
   height = 250;
   width = 250;
   speed = 10;
+  offset = {
+    top: 50,
+    left: 60,
+    right: 135,
+    bottom: 85,
+  };
+  energy = 100;
+
+  IMAGES_STANDING = [
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_000.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_001.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_002.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_003.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_004.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_005.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_006.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_007.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_008.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_009.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_010.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_011.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_012.png",
+    "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_013.png",
+  ];
   IMAGES_WALKING = [
     "img/Skeleton_Warrior_3/Walking/0_Skeleton_Warrior_Walking_000.png",
     "img/Skeleton_Warrior_3/Walking/0_Skeleton_Warrior_Walking_001.png",
@@ -45,18 +69,55 @@ class Character extends MovableObject {
     "img/Skeleton_Warrior_3/Jump Loop/0_Skeleton_Warrior_Jump Loop_004.png",
     "img/Skeleton_Warrior_3/Jump Loop/0_Skeleton_Warrior_Jump Loop_005.png",
   ];
+
+  IMAGES_HURT = [
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_000.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_001.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_002.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_003.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_004.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_005.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_006.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_007.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_008.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_009.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_010.png",
+    "img/Skeleton_Warrior_3/Hurt/0_Skeleton_Warrior_Hurt_011.png",
+  ];
+
+  IMAGES_DEAD = [
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_000.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_001.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_002.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_003.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_004.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_005.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_006.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_007.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_008.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_009.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_010.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_011.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_012.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_013.png",
+    "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_014.png",
+  ];
+
   currentImage = 0;
   world;
   constructor() {
     super().loadImage("img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_000.png");
+    this.loadImages(this.IMAGES_STANDING);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_DEAD);
     this.animateCharacter();
     this.applyGravity();
   }
 
-  animateCharacter() {
-    setInterval(() => {
+  navigateCharacter() {
+    this.setStoppableInterval(() => {
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
         this.otherDirection = false;
@@ -70,16 +131,31 @@ class Character extends MovableObject {
       }
       this.world.camera_x = -this.x + 50;
     }, 1000 / 60);
+  }
+
+  handleHurt() {
+    this.playAnimation(this.IMAGES_HURT);
+  }
+
+  handleDeath() {
+    this.playAnimation(this.IMAGES_DEAD);
+  }
+
+  animateCharacter() {
+    this.navigateCharacter();
+    this.setStoppableInterval(() => {
+      // if (this.isHurt()) return this.handleHurt();
+      if (this.isDead()) return this.handleDeath();
+    }, 600);
 
     setInterval(() => {
       if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
+      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.playAnimation(this.IMAGES_WALKING);
       } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          //Walk animation
-          this.playAnimation(this.IMAGES_WALKING);
-        }
+        this.playAnimation(this.IMAGES_STANDING);
       }
-    }, 40);
+    }, 80);
   }
 }
