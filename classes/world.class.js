@@ -1,5 +1,6 @@
 class World {
   character = new Character();
+
   level = level1;
   canvas;
   ctx;
@@ -15,9 +16,12 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.world = world;
+
     this.draw();
     this.setWorld();
     this.run();
+    this.endboss = new Endboss(this);
+    this.level.enemies.push(this.endboss);
   }
 
   setWorld() {
@@ -30,7 +34,6 @@ class World {
     this.character.setStoppableInterval(() => {
       this.checkCollisionFromAbove();
     }, 50);
-    
     this.character.setStoppableInterval(() => {
       this.checkCollisions();
     }, 200);
@@ -79,6 +82,9 @@ class World {
         if (enemy.isCollidingOffset(item)) {
           enemy.hit();
           item.broken = true;
+          if (enemy instanceof Endboss) {
+            this.removeItem(enemy);
+          }
           this.removeItem(enemy);
           this.removeEnemy(item);
         }
@@ -96,16 +102,16 @@ class World {
     });
   }
 
-checkCollisionFromAbove() {
-  for (let enemy of this.level.enemies) {
-    if (this.character.isCollidingFromAbove(enemy) && this.character.isAboveGround()) {
-      enemy.hit();
-      this.character.bounce();
-      this.removeEnemy(enemy);
-      break; // Stop after the first enemy
+  checkCollisionFromAbove() {
+    for (let enemy of this.level.enemies) {
+      if (this.character.isCollidingFromAbove(enemy) && this.character.isAboveGround()) {
+        enemy.hit();
+        this.character.bounce();
+        this.removeEnemy(enemy);
+        break; // Stop after the first enemy
+      }
     }
   }
-}
 
   removeItem(enemy) {
     setTimeout(() => {
@@ -118,11 +124,11 @@ checkCollisionFromAbove() {
       });
     }, 400);
   }
-removeEnemy(enemy) {
-  setTimeout(() => {
-    this.level.enemies = this.level.enemies.filter(e => e !== enemy);
-  }, 400);
-}
+  removeEnemy(enemy) {
+    setTimeout(() => {
+      this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
+    }, 400);
+  }
 
   checkThrowObject() {
     if (this.keyboard.D) {

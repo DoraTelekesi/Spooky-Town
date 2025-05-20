@@ -35,7 +35,7 @@ class DrawableObject {
     }
   }
   drawFrameOffset(ctx) {
-    if (this instanceof Character || this instanceof Enemy || this instanceof CollectibleObject || this instanceof ThrowableObject) {
+    if (this instanceof Character || this instanceof Enemy || this instanceof CollectibleObject || this instanceof ThrowableObject || this instanceof Endboss) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "red";

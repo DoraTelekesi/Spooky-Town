@@ -6,7 +6,6 @@ const level1 = new Level(
     new Enemy("img/Wraith_01/Idle/Wraith_01_Idle_000.png", "wraith-1"),
     new Enemy("img/Wraith_02/Idle/Wraith_02_Idle_000.png", "wraith-2"),
     new Enemy("img/Wraith_03/Idle/Wraith_03_Idle_000.png", "wraith-3"),
-    new Endboss(),
   ],
   [
     new Cloud("img/Background/1_game_background/layers/2.png", -729),
