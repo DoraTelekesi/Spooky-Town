@@ -4,6 +4,7 @@ class DrawableObject {
   img;
   height;
   width;
+  imageCache = {};
 
   loadImage(path) {
     this.img = new Image();
@@ -25,7 +26,7 @@ class DrawableObject {
     }
   }
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Enemy || this instanceof Endboss) {
+    if (this instanceof Endboss) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
@@ -34,7 +35,7 @@ class DrawableObject {
     }
   }
   drawFrameOffset(ctx) {
-    if (this instanceof Character || this instanceof Enemy) {
+    if (this instanceof Character || this instanceof Enemy || this instanceof CollectibleObject || this instanceof ThrowableObject) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "red";
@@ -43,6 +44,20 @@ class DrawableObject {
         this.y + this.offset.top,
         this.width - this.offset.right,
         this.height - this.offset.bottom
+      );
+      ctx.stroke();
+    }
+  }
+    drawFrameOffset2(ctx) {
+    if (this instanceof Enemy) {
+      ctx.beginPath();
+      ctx.lineWidth = "5";
+      ctx.strokeStyle = "purple";
+      ctx.rect(
+        this.x + this.offset2.left,
+        this.y + this.offset2.top,
+        this.width - this.offset2.right,
+        this.height - this.offset2.bottom
       );
       ctx.stroke();
     }

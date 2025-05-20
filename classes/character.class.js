@@ -4,13 +4,20 @@ class Character extends MovableObject {
   height = 250;
   width = 250;
   speed = 10;
+  offset2 = {
+    top: 50,
+    left: 50,
+    right: 50,
+    bottom: 50,
+  };
   offset = {
     top: 50,
-    left: 60,
-    right: 135,
+    left: 30,
+    right: 105,
     bottom: 85,
   };
   energy = 100;
+  canBounce = true;
 
   IMAGES_STANDING = [
     "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_000.png",
@@ -126,7 +133,7 @@ class Character extends MovableObject {
         this.moveLeft();
         this.otherDirection = true;
       }
-      if (this.world.keyboard.UP && !this.isAboveGround()) {
+      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
         this.jump();
       }
       this.world.camera_x = -this.x + 50;
@@ -141,21 +148,22 @@ class Character extends MovableObject {
     this.playAnimation(this.IMAGES_DEAD);
   }
 
+  handleJump() {
+    this.playAnimation(this.IMAGES_JUMPING);
+  }
+
+  handleWalk() {
+    this.playAnimation(this.IMAGES_WALKING);
+  }
+
   animateCharacter() {
     this.navigateCharacter();
     this.setStoppableInterval(() => {
-      // if (this.isHurt()) return this.handleHurt();
+      if (this.isHurt()) return this.handleHurt();
       if (this.isDead()) return this.handleDeath();
-    }, 600);
-
-    setInterval(() => {
-      if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
-      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(this.IMAGES_WALKING);
-      } else {
-        this.playAnimation(this.IMAGES_STANDING);
-      }
-    }, 80);
+      if (this.isAboveGround()) return this.handleJump();
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) return this.handleWalk();
+      this.playAnimation(this.IMAGES_STANDING);
+    }, 100);
   }
 }

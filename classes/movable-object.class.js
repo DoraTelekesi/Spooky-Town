@@ -18,25 +18,63 @@ class MovableObject extends DrawableObject {
   }
 
   applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
+    const id = setInterval(() => {
+      if (!this.broken) {
+        if (this.isAboveGround() || this.speedY > 0) {
+          this.y -= this.speedY;
+          this.speedY -= this.acceleration;
+        } else if (this instanceof Character) {
+          this.y = 230;
+          this.speedY = 0;
+        } else if (this instanceof ThrowableObject) {
+          this.y = 400;
+          this.speedY = 0;
+        }
       }
     }, 1000 / 25);
+    this.intervalIds.push(id); // Store the interval ID
   }
 
   isAboveGround() {
-    return this.y < 230;
+    if (this instanceof ThrowableObject) {
+      return true;
+    } else if (this instanceof Enemy) {
+      return this.y < 300;
+    } else {
+      return this.y < 230;
+    }
   }
 
-  isColliding(mo) {
+  bounce() {
+    if (this.canBounce) {
+      this.speedY = 20;
+      this.canBounce = false;
+      setTimeout(() => {
+        this.canBounce = true;
+      }, 300);
+    }
+  }
+
+  isCollidingOffset(mo) {
     return (
       this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
       this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
       this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
       this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
     );
+  }
+
+  isColliding(mo) {
+    return (
+      this.x + this.width > mo.x && this.x < mo.x + mo.width && this.y < mo.y + mo.height && this.y + this.height > mo.y
+    );
+  }
+
+  isCollidingFromAbove(mo) {
+    let verticalCollision = this.y + this.height >= mo.y && this.y + this.height <= mo.y + mo.height;
+    let horizontalCollision = this.x + this.width > mo.x && this.x < mo.x + mo.width;
+    // Only true if moving downwards (falling)
+    return verticalCollision && horizontalCollision && this.speedY < 0;
   }
 
   hit() {
@@ -54,7 +92,7 @@ class MovableObject extends DrawableObject {
     return timepassed < 1;
   }
 
-  isDead(){
+  isDead() {
     return this.energy == 0;
   }
 

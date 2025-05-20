@@ -18,6 +18,28 @@ const level1 = new Level(
     new Cloud("img/Background/1_game_background/layers/2.png", 729 * 5),
   ],
   [
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(360, "bottle"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+    new CollectibleObject(220, "coin"),
+  ],
+  [
     new BackgroundObject("img/Background/1_game_background/layers/1.png", -729 * 2, 0),
     new BackgroundObject("img/Background/1_game_background/layers/3.png", -729 * 2, 0),
     new BackgroundObject("img/Background/1_game_background/layers/4.png", -729 * 2, 0),
@@ -69,5 +91,6 @@ const level1 = new Level(
     new BackgroundObject("img/Background/1_game_background/layers/4.png", 729 * 5, 0),
     new BackgroundObject("img/Background/1_game_background/layers/5.png", 729 * 5, 0),
     new BackgroundObject("img/Background/1_game_background/layers/7.png", 729 * 5, 0),
-  ]
+  ],
+  [new StatusBar(10, 10, "health"), new StatusBar(10, 50, "coin"), new StatusBar(10, 90, "bottle")]
 );
