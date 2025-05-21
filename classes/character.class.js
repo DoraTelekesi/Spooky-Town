@@ -156,6 +156,7 @@ class Character extends MovableObject {
       document.getElementById("overlay").classList.remove("hidden");
       AUDIO_BACKGROUND.pause();
       AUDIO_FAIL.play();
+      AUDIO_RUN.pause();
     }, 100);
   }
 

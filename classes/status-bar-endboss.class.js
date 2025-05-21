@@ -24,12 +24,8 @@ class StatusBarEndboss extends MovableObject {
     this.setPercentage(100);
     this.speed = 0.5;
     this.animate();
-    // this.placeStatusBar();
   }
 
-  // placeStatusBar() {
-  //   console.log(this.endboss.x);
-  // }
   animate() {
     this.setStoppableInterval(() => {
       this.moveLeft();

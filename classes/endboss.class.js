@@ -12,6 +12,7 @@ class Endboss extends MovableObject {
   world;
   energy = 50;
   firstContact = false;
+
   gameWon = false;
 
   IMAGES_STANDING = [
@@ -132,7 +133,7 @@ class Endboss extends MovableObject {
 
   animate() {
     this.setStoppableInterval(() => {
-      if (this.world.character.x > 2520) {
+      if (this.characterStepsIntoEndbossArea()) {
         this.firstContact = true;
         this.playAnimation(this.IMAGES_WALKING);
         this.moveLeft();
@@ -145,5 +146,14 @@ class Endboss extends MovableObject {
       if (this.isHurt()) return this.handleHurt();
       if (this.isDead()) return this.handleDeath();
     }, 50);
+  }
+
+  characterStepsIntoEndbossArea() {
+    if (this.firstContact) return true;
+    if (this.world.character.x > 2520) {
+      this.firstContact = true;
+      return true;
+    }
+    return false;
   }
 }

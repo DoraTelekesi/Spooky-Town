@@ -65,7 +65,6 @@ class World {
       if (this.character.isCollidingOffset(enemy)) {
         this.character.hit();
         this.level.statusbar[0].setPercentage(this.character.energy, "health");
-        console.log("collided");
       }
     });
   }

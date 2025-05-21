@@ -4,6 +4,7 @@ class Enemy extends MovableObject {
   y = 300;
   otherDirection = true;
   speed;
+  speedY;
   energy = 5;
   hasToTurn = false;
   offset = {
@@ -123,27 +124,38 @@ class Enemy extends MovableObject {
     this.loadImages(this.IMAGES_DEAD_WRAITH_1);
     this.loadImages(this.IMAGES_DEAD_WRAITH_2);
     this.loadImages(this.IMAGES_DEAD_WRAITH_3);
-    this.x = 1200 + Math.random() * 2600;
+    this.x = 400 + Math.random() * 2400;
     this.speed = 0.05 + Math.random() * 0.5;
     this.animate();
+    if (this.type === "wraith-2") {
+      this.applyGravity();
+    }
+  }
+  changeDirection() {
+    if (this.otherDirection) {
+      if (this.x > 20) {
+        this.moveLeft();
+      } else {
+        this.otherDirection = false;
+      }
+    } else {
+      if (this.x < 2500) {
+        this.moveRight();
+      } else {
+        this.otherDirection = true;
+      }
+    }
   }
 
   animate() {
     this.setStoppableInterval(() => {
-      if (this.otherDirection) {
-        if (this.x > 20) {
-          this.moveLeft();
-        } else {
-          this.otherDirection = true;
-        }
-      } else {
-        if (this.x < 2500) {
-          // Set your right boundary here
-          this.moveRight();
-        } else {
-          this.otherDirection = false;
-        }
+      if (this.type === "wraith-2") {
+        this.jump();
+        this.speed = 0.8 + Math.random() * 0.5;
       }
+    }, 2000);
+    this.setStoppableInterval(() => {
+      this.changeDirection();
     }, 1000 / 60);
 
     setInterval(() => {
