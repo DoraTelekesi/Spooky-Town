@@ -5,11 +5,12 @@ class Enemy extends MovableObject {
   otherDirection = true;
   speed;
   energy = 5;
+  hasToTurn = false;
   offset = {
-    top: 30,
+    top: 10,
     left: 0,
     right: 50,
-    bottom: 10,
+    bottom: 40,
   };
   offset2 = {
     top: 10,
@@ -128,8 +129,21 @@ class Enemy extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
-      this.moveLeft();
+    this.setStoppableInterval(() => {
+      if (this.otherDirection) {
+        if (this.x > 20) {
+          this.moveLeft();
+        } else {
+          this.otherDirection = true;
+        }
+      } else {
+        if (this.x < 2500) {
+          // Set your right boundary here
+          this.moveRight();
+        } else {
+          this.otherDirection = false;
+        }
+      }
     }, 1000 / 60);
 
     setInterval(() => {

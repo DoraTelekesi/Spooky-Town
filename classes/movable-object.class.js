@@ -71,10 +71,27 @@ class MovableObject extends DrawableObject {
   }
 
   isCollidingFromAbove(mo) {
-    let verticalCollision = this.y + this.height >= mo.y && this.y + this.height <= mo.y + mo.height;
-    let horizontalCollision = this.x + this.width > mo.x && this.x < mo.x + mo.width;
-    // Only true if moving downwards (falling)
-    return verticalCollision && horizontalCollision && this.speedY < 0;
+    const margin = 5;
+    const isFalling = this.speedY < 0;
+
+    // Character's offset rectangle (red)
+    const charLeft = this.x + this.offset2.left;
+    const charRight = this.x + this.width - this.offset2.right;
+    const charBottom = this.y + this.height - this.offset2.bottom;
+
+    // Enemy's offset2 rectangle (purple), fallback to offset if missing
+    const enemyOffset = mo.offset2 || mo.offset || { left: 0, right: 0, top: 0, bottom: 0 };
+    const enemyLeft = mo.x + enemyOffset.left;
+    const enemyRight = mo.x + mo.width - enemyOffset.right;
+    const enemyTop = mo.y + enemyOffset.top;
+
+    // Check horizontal overlap (using offsets)
+    const horizontalOverlap = charRight > enemyLeft && charLeft < enemyRight;
+
+    // Check if character's bottom is just above enemy's top (with margin)
+    const verticalFromAbove = charBottom > enemyTop + margin && charBottom < enemyTop + 20; // Only a small window above the enemy
+
+    return horizontalOverlap && verticalFromAbove && isFalling;
   }
 
   hit() {

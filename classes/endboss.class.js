@@ -2,7 +2,7 @@ class Endboss extends MovableObject {
   width = 350;
   height = 400;
   otherDirection = true;
-  speed = 5;
+  speed = 0.7;
   offset = {
     top: 60,
     left: 40,
@@ -12,6 +12,7 @@ class Endboss extends MovableObject {
   world;
   energy = 50;
   firstContact = false;
+  gameWon = false;
 
   IMAGES_STANDING = [
     "img/Golem_01/Idle/Golem_01_Idle_000.png",
@@ -47,6 +48,18 @@ class Endboss extends MovableObject {
     "img/Golem_01/Walking/Golem_01_Walking_015.png",
     "img/Golem_01/Walking/Golem_01_Walking_016.png",
     "img/Golem_01/Walking/Golem_01_Walking_017.png",
+    "img/Golem_01/Jump Start/Golem_01_Jump Start_000.png",
+    "img/Golem_01/Jump Start/Golem_01_Jump Start_001.png",
+    "img/Golem_01/Jump Start/Golem_01_Jump Start_002.png",
+    "img/Golem_01/Jump Start/Golem_01_Jump Start_003.png",
+    "img/Golem_01/Jump Start/Golem_01_Jump Start_004.png",
+    "img/Golem_01/Jump Start/Golem_01_Jump Start_005.png",
+    "img/Golem_01/Jump Loop/Golem_01_Jump Loop_000.png",
+    "img/Golem_01/Jump Loop/Golem_01_Jump Loop_001.png",
+    "img/Golem_01/Jump Loop/Golem_01_Jump Loop_002.png",
+    "img/Golem_01/Jump Loop/Golem_01_Jump Loop_003.png",
+    "img/Golem_01/Jump Loop/Golem_01_Jump Loop_004.png",
+    "img/Golem_01/Jump Loop/Golem_01_Jump Loop_005.png",
   ];
 
   IMAGES_HURT = [
@@ -84,13 +97,14 @@ class Endboss extends MovableObject {
 
   constructor(world) {
     super().loadImage(this.IMAGES_STANDING[0]);
+    this.world = world;
     this.loadImages(this.IMAGES_STANDING);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 3100;
     this.y = 70;
-    this.world = world;
+
     this.animate();
   }
 
@@ -99,10 +113,21 @@ class Endboss extends MovableObject {
   }
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
+    AUDIO_BOSS.play();
   }
 
   handleDeath() {
     this.playAnimation(this.IMAGES_DEAD);
+    if (!this.gameWon) {
+      this.gameWon = true;
+      this.world.movableObjects.forEach((obj) => obj.stopInterval());
+      setTimeout(() => {
+        document.getElementById("win-modal").classList.remove("hidden");
+        document.getElementById("overlay").classList.remove("hidden");
+        AUDIO_BACKGROUND.pause();
+        AUDIO_WIN.play();
+      }, 1000);
+    }
   }
 
   animate() {

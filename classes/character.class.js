@@ -8,7 +8,7 @@ class Character extends MovableObject {
     top: 50,
     left: 50,
     right: 50,
-    bottom: 50,
+    bottom: 10,
   };
   offset = {
     top: 50,
@@ -18,6 +18,7 @@ class Character extends MovableObject {
   };
   energy = 100;
   canBounce = true;
+  gameFailed = false;
 
   IMAGES_STANDING = [
     "img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_000.png",
@@ -135,6 +136,7 @@ class Character extends MovableObject {
       }
       if (this.world.keyboard.SPACE && !this.isAboveGround()) {
         this.jump();
+        AUDIO_JUMP.play();
       }
       this.world.camera_x = -this.x + 50;
     }, 1000 / 60);
@@ -142,18 +144,30 @@ class Character extends MovableObject {
 
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
+    AUDIO_HURT.play();
   }
 
   handleDeath() {
+    this.gameFailed = true;
     this.playAnimation(this.IMAGES_DEAD);
+    this.world.movableObjects.forEach((obj) => obj.stopInterval());
+    setTimeout(() => {
+      document.getElementById("fail-modal").classList.remove("hidden");
+      document.getElementById("overlay").classList.remove("hidden");
+      AUDIO_BACKGROUND.pause();
+      AUDIO_FAIL.play();
+    }, 100);
   }
 
   handleJump() {
     this.playAnimation(this.IMAGES_JUMPING);
+
+    AUDIO_RUN.pause();
   }
 
   handleWalk() {
     this.playAnimation(this.IMAGES_WALKING);
+    AUDIO_RUN.play();
   }
 
   animateCharacter() {
@@ -164,6 +178,7 @@ class Character extends MovableObject {
       if (this.isAboveGround()) return this.handleJump();
       if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) return this.handleWalk();
       this.playAnimation(this.IMAGES_STANDING);
+      AUDIO_RUN.pause();
     }, 100);
   }
 }

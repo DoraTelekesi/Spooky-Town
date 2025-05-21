@@ -26,7 +26,7 @@ class DrawableObject {
     }
   }
   drawFrame(ctx) {
-    if (this instanceof Endboss) {
+    if (this instanceof Endboss || this instanceof Character || this instanceof Enemy) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
@@ -49,7 +49,7 @@ class DrawableObject {
     }
   }
     drawFrameOffset2(ctx) {
-    if (this instanceof Enemy) {
+    if (this instanceof Enemy || this instanceof Character) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "purple";

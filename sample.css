@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Eater";
+  src: url(./fonts/Eater/Eater-Regular.ttf);
+}
+
+body {
+  /* width: 100vw; */
+  height: 100vh;
+  height: 100%;
+  overflow-x: hidden;
+  margin: auto 0;
+  /* opacity: 0.5; */
+  background-size: cover;
+  background-blend-mode: overlay;
+  background-size: auto;
+  font-family: "Eater", sans-serif;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  /* opacity: 0.8; */
+  font-size: 80px;
+  color: rgb(168, 177, 51);
+  text-shadow: 7px 5px black;
+}
+
+div {
+  display: flex;
+  flex-direction: column;
+  opacity: 0.7;
+  /* justify-content: center; */
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-image: url("img/Background/halloween-5696838_1920.jpg");
+  background-size: cover;
+  /* background-size: contain; */
+}
+
+h1 {
+  top: 0;
+  left:300px;
+  position: absolute;
+  margin: 0;
+  z-index: 9999;
+}
+img {
+  position: absolute;
+  top: 100px;
+  left: -40px;
+  z-index: 9999;
+}
+
+.img2 {
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  opacity: 0.5;
+}
+/* 
+.container {
+  width: 100%;
+  height: 100%;
+  background-image: url("img/Background/halloween-5696838_1920.jpg");
+} */
