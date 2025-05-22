@@ -2,7 +2,7 @@ class Endboss extends MovableObject {
   width = 350;
   height = 400;
   otherDirection = true;
-  speed = 0.7;
+  speed;
   offset = {
     top: 60,
     left: 40,
@@ -10,10 +10,10 @@ class Endboss extends MovableObject {
     bottom: 60,
   };
   world;
-  energy = 50;
+  energy = 100;
   firstContact = false;
-
   gameWon = false;
+  isJumping = false;
 
   IMAGES_STANDING = [
     "img/Golem_01/Idle/Golem_01_Idle_000.png",
@@ -49,6 +49,9 @@ class Endboss extends MovableObject {
     "img/Golem_01/Walking/Golem_01_Walking_015.png",
     "img/Golem_01/Walking/Golem_01_Walking_016.png",
     "img/Golem_01/Walking/Golem_01_Walking_017.png",
+  ];
+
+  IMAGES_JUMP = [
     "img/Golem_01/Jump Start/Golem_01_Jump Start_000.png",
     "img/Golem_01/Jump Start/Golem_01_Jump Start_001.png",
     "img/Golem_01/Jump Start/Golem_01_Jump Start_002.png",
@@ -96,6 +99,21 @@ class Endboss extends MovableObject {
     "img/Golem_01/Dying/Golem_01_Dying_014.png",
   ];
 
+  IMAGES_ATTACK = [
+    "img/Golem_01/Attacking/Golem_01_Attacking_000.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_001.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_002.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_003.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_004.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_005.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_006.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_007.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_008.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_009.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_010.png",
+    "img/Golem_01/Attacking/Golem_01_Attacking_011.png",
+  ];
+
   constructor(world) {
     super().loadImage(this.IMAGES_STANDING[0]);
     this.world = world;
@@ -103,10 +121,13 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
+    this.loadImages(this.IMAGES_JUMP);
+    this.loadImages(this.IMAGES_ATTACK);
     this.x = 3100;
     this.y = 70;
-
+    this.speed = 1 + Math.random() * 0.5;
     this.animate();
+    this.applyGravity();
   }
 
   handleWalk() {
@@ -115,6 +136,7 @@ class Endboss extends MovableObject {
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
     AUDIO_BOSS.play();
+    this.handleJump();
   }
 
   handleDeath() {
@@ -131,20 +153,52 @@ class Endboss extends MovableObject {
     }
   }
 
+  handleJump() {
+    if (!this.isJumping) {
+      this.isJumping = true;
+      this.jump();
+      this.speed = 2 + Math.random() * 0.5;
+      this.playAnimation(this.IMAGES_JUMP);
+    }
+  }
+
+  // handleAttack() {
+  //   this.isAttacking = true;
+  //   this.playAnimation(this.IMAGES_ATTACK);
+  //   this.jump();
+  // }
+
   animate() {
     this.setStoppableInterval(() => {
+      if (this.isHurt() && !this.isAboveGround()) {
+        this.handleJump();
+        return;
+      }
+      if (this.isHurt()) {
+        this.handleHurt();
+        return;
+      }
+      if (this.isDead()) {
+        this.handleDeath();
+        return;
+      }
       if (this.characterStepsIntoEndbossArea()) {
         this.firstContact = true;
-        this.playAnimation(this.IMAGES_WALKING);
-        this.moveLeft();
+        if (!this.isJumping) {
+          this.playAnimation(this.IMAGES_WALKING);
+          this.moveLeft();
+        }
       } else {
         this.firstContact = false;
         this.playAnimation(this.IMAGES_STANDING);
       }
-    }, 50);
-    this.setStoppableInterval(() => {
-      if (this.isHurt()) return this.handleHurt();
-      if (this.isDead()) return this.handleDeath();
+
+
+
+      // Reset jump flag when on ground
+      if (!this.isAboveGround()) {
+        this.isJumping = false;
+      }
     }, 50);
   }
 

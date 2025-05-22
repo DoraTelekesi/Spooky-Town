@@ -15,6 +15,9 @@ class MovableObject extends DrawableObject {
   }
   jump() {
     this.speedY = 35;
+    if (this instanceof Endboss) {
+      this.x -= 50;
+    }
   }
 
   applyGravity() {
@@ -29,6 +32,9 @@ class MovableObject extends DrawableObject {
         } else if (this instanceof ThrowableObject) {
           this.y = 400;
           this.speedY = 0;
+        } else if (this instanceof Endboss) {
+          this.y = 90;
+          this.speedY = 0;
         }
       }
     }, 1000 / 25);
@@ -40,6 +46,8 @@ class MovableObject extends DrawableObject {
       return true;
     } else if (this instanceof Enemy) {
       return this.y < 300;
+    } else if (this instanceof Endboss) {
+      return this.y < 90;
     } else {
       return this.y < 230;
     }

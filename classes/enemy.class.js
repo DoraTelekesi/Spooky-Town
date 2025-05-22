@@ -7,6 +7,7 @@ class Enemy extends MovableObject {
   speedY;
   energy = 5;
   hasToTurn = false;
+
   offset = {
     top: 10,
     left: 0,

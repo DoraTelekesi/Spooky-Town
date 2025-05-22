@@ -98,8 +98,8 @@ class World {
             this.removeEnemy(enemy);
             this.removeItem(item);
           } else if (enemy instanceof Endboss) {
-            this.removeItem(enemy);
-            this.level.statusbarEndboss[0].setPercentage((enemy.energy * 100) / 50);
+            this.removeItem(item);
+            this.level.statusbarEndboss[0].setPercentage((enemy.energy * 100) / 100);
           }
         }
       });
@@ -125,7 +125,7 @@ class World {
         if (!(enemy instanceof Endboss)) {
           this.removeEnemy(enemy);
         } else {
-          this.level.statusbarEndboss[0].setPercentage((enemy.energy * 100) / 50);
+          this.level.statusbarEndboss[0].setPercentage((enemy.energy * 100) / 100);
         }
         break; // Stop after the first enemy
       }

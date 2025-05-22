@@ -11,15 +11,15 @@ let AUDIO_HURT = new Audio("audio/player-hurt.mp3");
 let AUDIO_SMASH_BOTTLE = new Audio("audio/glass-break.mp3");
 let AUDIO_FAIL = new Audio("audio/fail.mp3");
 let AUDIO_SPLAT = new Audio("audio/small-enemy-kill.mp3");
-// let AUDIO_SNORE = new Audio("./audio/sleep.mp3");
 let AUDIO_WHOOSH = new Audio("./audio/whoosh.mp3");
 let AUDIO_RUN = new Audio("audio/run.mp3");
 let AUDIO_BOSS = new Audio("audio/monster-sound.mp3");
 let AUDIO_WIN = new Audio("audio/game-win.mp3");
+
 AUDIO_BACKGROUND.loop = true;
 AUDIO_BACKGROUND.volume = 0.1;
-AUDIO_FAIL.volume = 0.3;
-AUDIO_WIN.volume = 0.3;
+AUDIO_FAIL.volume = 0.05;
+AUDIO_WIN.volume = 0.05;
 
 function startGame() {
   initLevel();
@@ -28,11 +28,16 @@ function startGame() {
   document.getElementById("canvas-icons").classList.remove("hidden");
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
-  AUDIO_BACKGROUND.play();
+  // AUDIO_BACKGROUND.play();
 }
 
 function restartGame() {
-  window.location.reload();
+  document.getElementById("fail-modal").classList.add("hidden");
+  document.getElementById("overlay").classList.add("hidden");
+  document.getElementById("win-modal").classList.add("hidden");
+  document.getElementById("overlay").classList.add("hidden");
+  AUDIO_BACKGROUND.currentTime = 0;
+  startGame();
 }
 
 function init() {
@@ -151,13 +156,91 @@ function toggleMusic() {
     musicIcon.classList.remove("music-on");
     musicIcon.classList.add("music-off");
     musicIcon.src = "img/icons/volume-xmark-solid.svg";
-    AUDIO_BACKGROUND.muted = true;
-    AUDIO_BACKGROUND.pause();
+    muteAllAudio();
   } else {
     musicIcon.classList.remove("music-off");
     musicIcon.classList.add("music-on");
     musicIcon.src = "img/icons/volume-high-solid.svg";
-    AUDIO_BACKGROUND.muted = false;
-    AUDIO_BACKGROUND.play();
+    playAllAudio();
   }
+}
+
+function muteAllAudio() {
+  AUDIO_BACKGROUND.muted = true;
+  AUDIO_BACKGROUND.pause();
+
+  AUDIO_JUMP.muted = true;
+  // AUDIO_JUMP.pause();
+
+  AUDIO_COLLECT_COIN.muted = true;
+  // AUDIO_COLLECT_COIN.pause();
+
+  AUDIO_COLLECT_BOTTLE.muted = true;
+  // AUDIO_COLLECT_BOTTLE.pause();
+
+  AUDIO_HURT.muted = true;
+  // AUDIO_HURT.pause();
+
+  AUDIO_SMASH_BOTTLE.muted = true;
+
+  AUDIO_HURT.muted = true;
+  // AUDIO_HURT.pause();
+
+  AUDIO_FAIL.muted = true;
+  // AUDIO_FAIL.pause();
+
+  AUDIO_SPLAT.muted = true;
+  // AUDIO_SPLAT.pause();
+
+  AUDIO_WHOOSH.muted = true;
+  // AUDIO_WHOOSH.pause();
+
+  AUDIO_RUN.muted = true;
+  // AUDIO_RUN.pause();
+
+  AUDIO_BOSS.muted = true;
+  // AUDIO_BOSS.pause();
+
+  AUDIO_WIN.muted = true;
+  // AUDIO_WIN.pause();
+}
+
+function playAllAudio() {
+  AUDIO_BACKGROUND.muted = false;
+  AUDIO_BACKGROUND.play();
+
+  AUDIO_JUMP.muted = false;
+  // AUDIO_JUMP.play();
+
+  AUDIO_COLLECT_COIN.muted = false;
+  // AUDIO_COLLECT_COIN.play();
+
+  AUDIO_COLLECT_BOTTLE.muted = false;
+  // AUDIO_COLLECT_BOTTLE.play();
+
+  AUDIO_HURT.muted = false;
+  // AUDIO_HURT.play();
+
+  AUDIO_SMASH_BOTTLE.muted = false;
+
+  AUDIO_HURT.muted = false;
+  // AUDIO_HURT.play();
+
+  AUDIO_FAIL.muted = false;
+  // AUDIO_FAIL.play();
+
+  AUDIO_SPLAT.muted = false;
+  // AUDIO_SPLAT.play();
+
+  AUDIO_WHOOSH.muted = false;
+  // AUDIO_WHOOSH.play();
+
+  AUDIO_RUN.muted = false;
+  // AUDIO_RUN.play();
+
+  AUDIO_BOSS.muted = false;
+  // AUDIO_BOSS.play();
+
+  AUDIO_WIN.muted = false;
+  // AUDIO_WIN.play();
 }
