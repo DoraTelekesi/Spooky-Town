@@ -19,7 +19,7 @@ class Endboss extends MovableObject {
     "img/Golem_01/Idle/Golem_01_Idle_000.png",
     "img/Golem_01/Idle/Golem_01_Idle_001.png",
     "img/Golem_01/Idle/Golem_01_Idle_002.png",
-    "img/Golem_01/Idle/Golem_01_Idle_003.png",
+    "img/Golem_01/Idle/Golem_01_Idle_003-fixed.png",
     "img/Golem_01/Idle/Golem_01_Idle_004.png",
     "img/Golem_01/Idle/Golem_01_Idle_005.png",
     "img/Golem_01/Idle/Golem_01_Idle_006.png",
