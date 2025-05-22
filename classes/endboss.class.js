@@ -3,6 +3,7 @@ class Endboss extends MovableObject {
   height = 400;
   otherDirection = true;
   speed;
+  speedY;
   offset = {
     top: 60,
     left: 40,
@@ -125,7 +126,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.x = 3100;
     this.y = 70;
-    this.speed = 1 + Math.random() * 0.5;
+    this.speed = 2 + Math.random() * 0.5;
     this.animate();
     this.applyGravity();
   }
@@ -133,10 +134,14 @@ class Endboss extends MovableObject {
   handleWalk() {
     this.playAnimation(this.IMAGES_WALKING);
   }
+
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
     AUDIO_BOSS.play();
-    this.handleJump();
+    // this.handleJump();
+    setTimeout(() => {
+      this.handleJump();
+    }, 500);
   }
 
   handleDeath() {
@@ -157,45 +162,18 @@ class Endboss extends MovableObject {
     if (!this.isJumping) {
       this.isJumping = true;
       this.jump();
-      this.speed = 2 + Math.random() * 0.5;
-      this.playAnimation(this.IMAGES_JUMP);
+      this.speed = 4 + Math.random() * 0.5;
+      // this.playAnimation(this.IMAGES_JUMP);
+      this.playAnimation(this.IMAGES_ATTACK);
     }
   }
 
-  // handleAttack() {
-  //   this.isAttacking = true;
-  //   this.playAnimation(this.IMAGES_ATTACK);
-  //   this.jump();
-  // }
-
   animate() {
     this.setStoppableInterval(() => {
-      if (this.isHurt() && !this.isAboveGround()) {
-        this.handleJump();
-        return;
-      }
-      if (this.isHurt()) {
-        this.handleHurt();
-        return;
-      }
-      if (this.isDead()) {
-        this.handleDeath();
-        return;
-      }
-      if (this.characterStepsIntoEndbossArea()) {
-        this.firstContact = true;
-        if (!this.isJumping) {
-          this.playAnimation(this.IMAGES_WALKING);
-          this.moveLeft();
-        }
-      } else {
-        this.firstContact = false;
-        this.playAnimation(this.IMAGES_STANDING);
-      }
-
-
-
-      // Reset jump flag when on ground
+      if (this.isDead()) return this.handleDeath();
+      this.handleFirstContact();
+      // if (this.isHurt()) return this.handleJump();
+      if (this.isHurt()) return this.handleHurt();
       if (!this.isAboveGround()) {
         this.isJumping = false;
       }
@@ -209,5 +187,21 @@ class Endboss extends MovableObject {
       return true;
     }
     return false;
+  }
+
+  handleFirstContact() {
+    if (this.characterStepsIntoEndbossArea()) {
+      this.firstContact = true;
+      if ((this.firstContact = true)) {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.moveLeft();
+      }
+    } else {
+      this.firstContact = false;
+    }
+  }
+
+  handleAttack() {
+    this.playAnimation(this.IMAGES_ATTACK);
   }
 }

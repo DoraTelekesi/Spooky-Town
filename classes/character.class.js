@@ -110,9 +110,9 @@ class Character extends MovableObject {
     "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_013.png",
     "img/Skeleton_Warrior_3/Dying/0_Skeleton_Warrior_Dying_014.png",
   ];
-
   currentImage = 0;
   world;
+
   constructor() {
     super().loadImage("img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_000.png");
     this.loadImages(this.IMAGES_STANDING);

@@ -14,11 +14,9 @@ class StatusBarEndboss extends MovableObject {
   constructor(world) {
     super();
     this.world = world;
-
     this.loadImages(this.IMAGES_ENDBOSS_HEALTH);
     this.y = 60;
     this.x = 3300;
-
     this.width = 200;
     this.height = 60;
     this.setPercentage(100);
@@ -32,7 +30,7 @@ class StatusBarEndboss extends MovableObject {
       this.x = world.endboss.x;
     }, 1000 / 25);
   }
-  //setPercentage(50)
+
   setPercentage(percentage) {
     let images;
     this.percentage = percentage;

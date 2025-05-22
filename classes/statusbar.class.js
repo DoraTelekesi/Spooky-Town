@@ -9,7 +9,6 @@ class StatusBar extends DrawableObject {
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png",
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png",
   ];
-
   IMAGES_COIN = [
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png",
@@ -18,7 +17,6 @@ class StatusBar extends DrawableObject {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png",
   ];
-
   IMAGES_BOTTLE = [
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png",
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png",
@@ -44,6 +42,7 @@ class StatusBar extends DrawableObject {
       this.setPercentage(0, type);
     }
   }
+
   setPercentage(percentage, type) {
     this.percentage = percentage;
     if (type === "health") {

@@ -1,6 +1,5 @@
 class World {
   character = new Character();
-
   level = level1;
   canvas;
   ctx;
@@ -18,14 +17,11 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.world = world;
-
     this.draw();
     this.setWorld();
     this.run();
     this.endboss = new Endboss(this);
     this.level.enemies.push(this.endboss);
-
-
     this.movableObjects = [
       this.character,
       ...this.level.enemies,
@@ -39,25 +35,20 @@ class World {
   setWorld() {
     this.character.world = this;
   }
+
   run() {
-    this.character.setStoppableInterval(() => {
-      this.checkCollisionWithGround();
-    }, 200);
     this.character.setStoppableInterval(() => {
       this.checkCollisionFromAbove();
     }, 50);
     this.character.setStoppableInterval(() => {
+      this.checkCollisionWithGround();
       this.checkCollisions();
-    }, 200);
-    this.character.setStoppableInterval(() => {
       this.checkCollisionWithThrowableObject();
+      this.checkThrowObject();
     }, 200);
     this.character.setStoppableInterval(() => {
       this.checkCollisionWithCollectibles();
     }, 1000 / 60);
-    this.character.setStoppableInterval(() => {
-      this.checkThrowObject();
-    }, 200);
   }
 
   checkCollisions() {
@@ -116,6 +107,7 @@ class World {
       }
     });
   }
+
   checkCollisionFromAbove() {
     for (let enemy of this.level.enemies) {
       if (this.character.isCollidingFromAbove(enemy) && this.character.isAboveGround()) {
@@ -127,7 +119,7 @@ class World {
         } else {
           this.level.statusbarEndboss[0].setPercentage((enemy.energy * 100) / 100);
         }
-        break; // Stop after the first enemy
+        break; 
       }
     }
   }
@@ -143,6 +135,7 @@ class World {
       });
     }, 400);
   }
+
   removeEnemy(enemy) {
     setTimeout(() => {
       this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
@@ -157,7 +150,6 @@ class World {
         this.throwableObject.push(bottle);
         this.amount_bottle--;
         this.level.statusbar[2].setPercentage((this.amount_bottle * 100) / 10, "bottle");
-        console.log("bottle thrown");
       }
     }
   }
@@ -166,20 +158,16 @@ class World {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
-
     this.ctx.translate(-this.camera_x, 0);
     this.addObjectsToMap(this.level.statusbar);
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.collectibleObjects);
-
     this.addObjectsToMap(this.level.statusbarEndboss);
     this.addObjectsToMap(this.throwableObject);
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
-
     this.ctx.translate(-this.camera_x, 0);
-
     let self = this;
     requestAnimationFrame(function () {
       self.draw();
@@ -191,9 +179,9 @@ class World {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-    // mo.drawFrame(this.ctx);
-    // mo.drawFrameOffset(this.ctx);
-    // mo.drawFrameOffset2(this.ctx);
+    mo.drawFrame(this.ctx);
+    mo.drawFrameOffset(this.ctx);
+    mo.drawFrameOffset2(this.ctx);
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
@@ -211,6 +199,7 @@ class World {
     this.ctx.scale(-1, 1);
     mo.x = mo.x * -1;
   }
+
   flipImageBack(mo) {
     this.ctx.restore();
     mo.x = mo.x * -1;

@@ -1,9 +1,9 @@
-@media only screen and (max-width: 1024px) and (orientation: portrait) {
+@media only screen and (orientation: portrait) {
   .turn-device {
     display: flex !important;
     flex-direction: column;
     position: absolute;
-    z-index: 999999;
+    z-index: 999999 !important;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -15,15 +15,17 @@
     width: 30%;
     height: 30%;
   }
+
+}
+
+@media only screen and  (orientation: landscape) {
+  .turn-device {
+    display: none !important;
+  }  
+  
   .panel,
   .panel-wrapper {
     display: flex !important;
-  }
-}
-
-@media only screen and (max-width: 1024px) and (orientation: landscape) {
-  .turn-device {
-    display: none !important;
   }
 }
 @media only screen and (max-height: 770px) and (max-width: 1050px) {
@@ -38,6 +40,7 @@
     top: 10%;
     right: 5%;
   }
+  
   .panel {
     position: absolute;
     display: flex;

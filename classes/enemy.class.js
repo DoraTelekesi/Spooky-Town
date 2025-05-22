@@ -34,7 +34,6 @@ class Enemy extends MovableObject {
     "img/Wraith_01/Walking/Wraith_01_Moving Forward_010.png",
     "img/Wraith_01/Walking/Wraith_01_Moving Forward_011.png",
   ];
-
   IMAGES_DEAD_WRAITH_1 = [
     "img/Wraith_01/Dying/Wraith_01_Dying_000.png",
     "img/Wraith_01/Dying/Wraith_01_Dying_001.png",
@@ -116,6 +115,7 @@ class Enemy extends MovableObject {
   ];
   currentImage = 0;
   type = "";
+
   constructor(imagePath, type) {
     super().loadImage(imagePath);
     this.type = type;
@@ -132,6 +132,7 @@ class Enemy extends MovableObject {
       this.applyGravity();
     }
   }
+
   changeDirection() {
     if (this.otherDirection) {
       if (this.x > 20) {
@@ -152,37 +153,48 @@ class Enemy extends MovableObject {
     this.setStoppableInterval(() => {
       if (this.type === "wraith-2") {
         this.jump();
-        this.speed = 0.8 + Math.random() * 0.5;
+        this.speed = 1.2 + Math.random() * 0.5;
       }
     }, 2000);
     this.setStoppableInterval(() => {
       this.changeDirection();
     }, 1000 / 60);
+    this.playEnemyImages();
+  }
 
-    setInterval(() => {
-      let images;
+  playEnemyImages() {
+    this.setStoppableInterval(() => {
       if (this.type === "wraith-1") {
-        if (this.isDead()) {
-          images = this.IMAGES_DEAD_WRAITH_1;
-        } else {
-          images = this.IMAGES_WALKING_WRAITH_1;
-        }
+        this.firstEnemyMovement();
       } else if (this.type === "wraith-2") {
-        if (this.isDead()) {
-          images = this.IMAGES_DEAD_WRAITH_2;
-        } else {
-          images = this.IMAGES_WALKING_WRAITH_2;
-        }
+        this.secondEnemyMovement();
       } else if (this.type === "wraith-3") {
-        if (this.isDead()) {
-          images = this.IMAGES_DEAD_WRAITH_3;
-        } else {
-          images = this.IMAGES_WALKING_WRAITH_3;
-        }
-      }
-      if (images) {
-        this.playAnimation(images);
+        this.thirdEnemyMovement();
       }
     }, 100);
+  }
+
+  firstEnemyMovement() {
+    if (this.isDead()) {
+      this.playAnimation(this.IMAGES_DEAD_WRAITH_1);
+    } else {
+      this.playAnimation(this.IMAGES_WALKING_WRAITH_1);
+    }
+  }
+
+  secondEnemyMovement() {
+    if (this.isDead()) {
+      this.playAnimation(this.IMAGES_DEAD_WRAITH_2);
+    } else {
+      this.playAnimation(this.IMAGES_WALKING_WRAITH_2);
+    }
+  }
+
+  thirdEnemyMovement() {
+    if (this.isDead()) {
+      this.playAnimation(this.IMAGES_DEAD_WRAITH_3);
+    } else {
+      this.playAnimation(this.IMAGES_WALKING_WRAITH_3);
+    }
   }
 }
