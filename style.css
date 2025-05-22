@@ -367,3 +367,7 @@ h1 {
 .panel {
   display: none;
 }
+
+.turn-device{
+  display:none;
+}
