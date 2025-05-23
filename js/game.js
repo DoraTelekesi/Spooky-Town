@@ -22,7 +22,14 @@ AUDIO_FAIL.volume = 0.05;
 AUDIO_WIN.volume = 0.05;
 
 /**
- * Starts the game by initializing the level, hiding modals, and creating the world.
+ * Starts the game by initializing the level, hiding modals, showing icons,
+ * creating the world, and playing background music if not muted.
+ *
+ * - Initializes the game level.
+ * - Hides the opening modal and overlay.
+ * - Shows the canvas icons.
+ * - Sets up the canvas and world objects.
+ * - Plays background music if the user has not muted it in localStorage.
  */
 function startGame() {
   initLevel();
@@ -31,7 +38,9 @@ function startGame() {
   document.getElementById("canvas-icons").classList.remove("hidden");
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
-  // AUDIO_BACKGROUND.play();
+  if (localStorage.getItem("musicMuted") !== "true") {
+    AUDIO_BACKGROUND.play();
+  }
 }
 
 /**
@@ -63,7 +72,6 @@ function goFullScreen() {
     enterFullScreen(canvasContainer);
     fullscreen = true;
     document.getElementById("fullscreen").src = "img/icons/compress-solid.svg";
-    console.log("fullscreen loaded");
   } else if (fullscreen == true) {
     exitfullscreen();
     fullscreen = false;
@@ -194,11 +202,13 @@ function toggleMusic() {
     musicIcon.classList.add("music-off");
     musicIcon.src = "img/icons/volume-xmark-solid.svg";
     muteAllAudio();
+    localStorage.setItem("musicMuted", "true"); // Save mute state
   } else {
     musicIcon.classList.remove("music-off");
     musicIcon.classList.add("music-on");
     musicIcon.src = "img/icons/volume-high-solid.svg";
     playAllAudio();
+    localStorage.setItem("musicMuted", "false"); // Save mute state
   }
 }
 
@@ -241,3 +251,30 @@ function playAllAudio() {
   AUDIO_BOSS.muted = false;
   AUDIO_WIN.muted = false;
 }
+
+/**
+ * Sets the initial mute state and music icon based on the user's saved preference in localStorage
+ * when the DOM content is loaded. Does not start playing music automatically.
+ *
+ * - If music is muted, all audio is muted and the icon is set to "off".
+ * - If music is not muted, background audio is unmuted and the icon is set to "on".
+ */
+window.addEventListener("DOMContentLoaded", () => {
+  const musicMuted = localStorage.getItem("musicMuted");
+  const musicIcon = document.getElementById("music-on");
+  if (musicMuted === "true") {
+    muteAllAudio();
+    if (musicIcon) {
+      musicIcon.classList.remove("music-on");
+      musicIcon.classList.add("music-off");
+      musicIcon.src = "img/icons/volume-xmark-solid.svg";
+    }
+  } else {
+    AUDIO_BACKGROUND.muted = false;
+    if (musicIcon) {
+      musicIcon.classList.remove("music-off");
+      musicIcon.classList.add("music-on");
+      musicIcon.src = "img/icons/volume-high-solid.svg";
+    }
+  }
+});
