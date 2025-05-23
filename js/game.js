@@ -21,6 +21,9 @@ AUDIO_BACKGROUND.volume = 0.1;
 AUDIO_FAIL.volume = 0.05;
 AUDIO_WIN.volume = 0.05;
 
+/**
+ * Starts the game by initializing the level, hiding modals, and creating the world.
+ */
 function startGame() {
   initLevel();
   document.getElementById("opening-modal").classList.add("dp-none");
@@ -31,6 +34,9 @@ function startGame() {
   // AUDIO_BACKGROUND.play();
 }
 
+/**
+ * Restarts the game by hiding modals, resetting audio, and starting the game again.
+ */
 function restartGame() {
   document.getElementById("fail-modal").classList.add("hidden");
   document.getElementById("overlay").classList.add("hidden");
@@ -40,11 +46,17 @@ function restartGame() {
   startGame();
 }
 
+/**
+ * Initializes the game UI by hiding icons and overlays.
+ */
 function init() {
   document.getElementById("canvas-icons").classList.add("hidden");
   document.getElementById("overlay").classList.add("hidden");
 }
 
+/**
+ * Toggles fullscreen mode for the canvas container.
+ */
 function goFullScreen() {
   let canvasContainer = document.getElementById("canvas-container");
   if (fullscreen == false) {
@@ -59,7 +71,10 @@ function goFullScreen() {
   }
 }
 
-// Enter fullscreen
+/**
+ * Requests fullscreen mode for the given element.
+ * @param {HTMLElement} element - The element to display in fullscreen.
+ */
 function enterFullScreen(element) {
   if (element.RequestFullScreen) {
     element.RequestFullScreen();
@@ -74,7 +89,9 @@ function enterFullScreen(element) {
   }
 }
 
-// Exit fullscreen
+/**
+ * Exits fullscreen mode.
+ */
 function exitfullscreen() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
@@ -88,6 +105,7 @@ function exitfullscreen() {
     alert("Exit fullscreen doesn't work");
   }
 }
+
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 39) {
     keyboard.RIGHT = true;
@@ -130,26 +148,45 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
+/**
+ * Opens the instructions modal.
+ */
 function openInstructions() {
   document.getElementById("instructions").classList.remove("hidden");
 }
 
+/**
+ * Closes the instructions modal.
+ */
 function closeInstructions() {
   document.getElementById("instructions").classList.add("hidden");
 }
 
+/**
+ * Prevents event bubbling for the given event.
+ * @param {Event} event - The event to stop propagation for.
+ */
 function preventBubbling(event) {
   event.stopPropagation();
 }
 
+/**
+ * Opens the impressum modal.
+ */
 function openImpressum() {
   document.getElementById("impressum-modal").classList.remove("hidden");
 }
 
+/**
+ * Closes the impressum modal.
+ */
 function closeImpressum() {
   document.getElementById("impressum-modal").classList.add("hidden");
 }
 
+/**
+ * Toggles the background music and updates the music icon.
+ */
 function toggleMusic() {
   const musicIcon = document.getElementById("music-on");
   if (musicIcon.classList.contains("music-on")) {
@@ -165,82 +202,42 @@ function toggleMusic() {
   }
 }
 
+/**
+ * Mutes all game audio and pauses background music.
+ */
 function muteAllAudio() {
   AUDIO_BACKGROUND.muted = true;
   AUDIO_BACKGROUND.pause();
-
   AUDIO_JUMP.muted = true;
-  // AUDIO_JUMP.pause();
-
   AUDIO_COLLECT_COIN.muted = true;
-  // AUDIO_COLLECT_COIN.pause();
-
   AUDIO_COLLECT_BOTTLE.muted = true;
-  // AUDIO_COLLECT_BOTTLE.pause();
-
   AUDIO_HURT.muted = true;
-  // AUDIO_HURT.pause();
-
   AUDIO_SMASH_BOTTLE.muted = true;
-
   AUDIO_HURT.muted = true;
-  // AUDIO_HURT.pause();
-
   AUDIO_FAIL.muted = true;
-  // AUDIO_FAIL.pause();
-
   AUDIO_SPLAT.muted = true;
-  // AUDIO_SPLAT.pause();
-
   AUDIO_WHOOSH.muted = true;
-  // AUDIO_WHOOSH.pause();
-
   AUDIO_RUN.muted = true;
-  // AUDIO_RUN.pause();
-
   AUDIO_BOSS.muted = true;
-  // AUDIO_BOSS.pause();
-
   AUDIO_WIN.muted = true;
-  // AUDIO_WIN.pause();
 }
 
+/**
+ * Unmutes all game audio and plays background music.
+ */
 function playAllAudio() {
   AUDIO_BACKGROUND.muted = false;
   AUDIO_BACKGROUND.play();
-
   AUDIO_JUMP.muted = false;
-  // AUDIO_JUMP.play();
-
   AUDIO_COLLECT_COIN.muted = false;
-  // AUDIO_COLLECT_COIN.play();
-
   AUDIO_COLLECT_BOTTLE.muted = false;
-  // AUDIO_COLLECT_BOTTLE.play();
-
   AUDIO_HURT.muted = false;
-  // AUDIO_HURT.play();
-
   AUDIO_SMASH_BOTTLE.muted = false;
-
   AUDIO_HURT.muted = false;
-  // AUDIO_HURT.play();
-
   AUDIO_FAIL.muted = false;
-  // AUDIO_FAIL.play();
-
   AUDIO_SPLAT.muted = false;
-  // AUDIO_SPLAT.play();
-
   AUDIO_WHOOSH.muted = false;
-  // AUDIO_WHOOSH.play();
-
   AUDIO_RUN.muted = false;
-  // AUDIO_RUN.play();
-
   AUDIO_BOSS.muted = false;
-  // AUDIO_BOSS.play();
-
   AUDIO_WIN.muted = false;
-  // AUDIO_WIN.play();
 }

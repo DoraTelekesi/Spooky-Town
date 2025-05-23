@@ -11,7 +11,14 @@ class World {
   throwableObject = [];
   movableObjects = [];
   statusBarEndboss;
+  endbossFightStarted = false;
 
+  /**
+   * Creates a new World instance and initializes the game.
+   * @param {HTMLCanvasElement} canvas - The canvas element for rendering.
+   * @param {Keyboard} keyboard - The keyboard input handler.
+   * @param {object} world - The game world object.
+   */
   constructor(canvas, keyboard, world) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -32,14 +39,20 @@ class World {
     ];
   }
 
+  /**
+   * Sets the world reference for the character.
+   */
   setWorld() {
     this.character.world = this;
   }
 
+  /**
+   * Starts the main game loops for collision checks and collectible updates.
+   */
   run() {
     this.character.setStoppableInterval(() => {
       this.checkCollisionFromAbove();
-    }, 50);
+    }, 1000 / 50);
     this.character.setStoppableInterval(() => {
       this.checkCollisionWithGround();
       this.checkCollisions();
@@ -51,15 +64,21 @@ class World {
     }, 1000 / 60);
   }
 
+  /**
+   * Checks for collisions between the character and enemies.
+   */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isCollidingOffset(enemy)) {
+      if (this.character.isCollidingOffset(enemy) && !this.character.isHurt()) {
         this.character.hit();
         this.level.statusbar[0].setPercentage(this.character.energy, "health");
       }
     });
   }
 
+  /**
+   * Checks for collisions between the character and collectible objects.
+   */
   checkCollisionWithCollectibles() {
     this.level.collectibleObjects = this.level.collectibleObjects.filter((item) => {
       if (this.character.isCollidingOffset(item)) {
@@ -78,6 +97,9 @@ class World {
     });
   }
 
+  /**
+   * Checks for collisions between throwable objects and enemies.
+   */
   checkCollisionWithThrowableObject() {
     this.level.enemies.forEach((enemy) => {
       this.throwableObject.forEach((item) => {
@@ -97,6 +119,9 @@ class World {
     });
   }
 
+  /**
+   * Checks if throwable objects have hit the ground and handles their removal.
+   */
   checkCollisionWithGround() {
     this.throwableObject.forEach((item) => {
       if (item.y > 380) {
@@ -108,6 +133,9 @@ class World {
     });
   }
 
+  /**
+   * Checks if the character is colliding with enemies from above and handles enemy defeat.
+   */
   checkCollisionFromAbove() {
     for (let enemy of this.level.enemies) {
       if (this.character.isCollidingFromAbove(enemy) && this.character.isAboveGround()) {
@@ -117,13 +145,18 @@ class World {
         if (!(enemy instanceof Endboss)) {
           this.removeEnemy(enemy);
         } else {
+          this.endboss.hit();
           this.level.statusbarEndboss[0].setPercentage((enemy.energy * 100) / 100);
         }
-        break; 
+        break;
       }
     }
   }
 
+  /**
+   * Removes a throwable object from the game after a short delay.
+   * @param {MovableObject} enemy - The enemy or object to remove.
+   */
   removeItem(enemy) {
     setTimeout(() => {
       this.throwableObject = this.throwableObject.filter((item) => {
@@ -136,16 +169,23 @@ class World {
     }, 400);
   }
 
+  /**
+   * Removes an enemy from the game after a short delay.
+   * @param {MovableObject} enemy - The enemy to remove.
+   */
   removeEnemy(enemy) {
     setTimeout(() => {
       this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
     }, 400);
   }
 
+  /**
+   * Checks if the player can throw a bottle and handles the throw action.
+   */
   checkThrowObject() {
     if (this.keyboard.D) {
       if (this.amount_bottle > 0) {
-        let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+        let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this);
         AUDIO_WHOOSH.play();
         this.throwableObject.push(bottle);
         this.amount_bottle--;
@@ -154,6 +194,9 @@ class World {
     }
   }
 
+  /**
+   * Draws all game objects and backgrounds to the canvas.
+   */
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
@@ -174,25 +217,34 @@ class World {
     });
   }
 
+  /**
+   * Draws a single movable object to the canvas, flipping it if needed.
+   * @param {MovableObject} mo - The movable object to draw.
+   */
   addToMap(mo) {
     if (mo.otherDirection) {
       this.flipImage(mo);
     }
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
-    mo.drawFrameOffset(this.ctx);
-    mo.drawFrameOffset2(this.ctx);
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
   }
 
+  /**
+   * Draws an array of objects to the canvas.
+   * @param {MovableObject[]} objects - The objects to draw.
+   */
   addObjectsToMap(objects) {
     objects.forEach((o) => {
       this.addToMap(o);
     });
   }
 
+  /**
+   * Flips the image horizontally for objects facing the other direction.
+   * @param {MovableObject} mo - The movable object to flip.
+   */
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -200,6 +252,10 @@ class World {
     mo.x = mo.x * -1;
   }
 
+  /**
+   * Restores the image orientation after flipping.
+   * @param {MovableObject} mo - The movable object to restore.
+   */
   flipImageBack(mo) {
     this.ctx.restore();
     mo.x = mo.x * -1;

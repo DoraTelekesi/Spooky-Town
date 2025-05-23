@@ -15,14 +15,13 @@
     width: 30%;
     height: 30%;
   }
-
 }
 
-@media only screen and  (orientation: landscape) {
+@media only screen and (orientation: landscape) {
   .turn-device {
     display: none !important;
-  }  
-  
+  }
+
   .panel,
   .panel-wrapper {
     display: flex !important;
@@ -40,7 +39,7 @@
     top: 10%;
     right: 5%;
   }
-  
+
   .panel {
     position: absolute;
     display: flex;
@@ -94,8 +93,8 @@
   }
 
   .canvas-wrapper .fail-modal {
-    width: 600px;
-    height: 220px;
+    width: 100%;
+    height: 100%;
   }
 
   .lost-replay,

@@ -11,9 +11,13 @@ class CollectibleObject extends MovableObject {
     "img/6_salsa_bottle/1_salsa_bottle_on_ground.png",
     "img/6_salsa_bottle/2_salsa_bottle_on_ground.png",
   ];
-
   IMAGES_COIN = ["img/8_coin/coin_1.png", "img/8_coin/coin_2.png"];
 
+  /**
+   * Creates a new CollectibleObject.
+   * @param {number} y - The y-coordinate of the collectible object.
+   * @param {string} type - The type of collectible ("bottle" or "coin").
+   */
   constructor(y, type) {
     if (type === "bottle") {
       super().loadImage("img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
@@ -40,6 +44,9 @@ class CollectibleObject extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Animates the collectible object by cycling through its images.
+   */
   animate() {
     this.setStoppableInterval(() => {
       let images;

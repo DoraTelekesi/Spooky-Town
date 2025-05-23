@@ -11,6 +11,10 @@ class StatusBarEndboss extends MovableObject {
   percentage;
   world;
 
+  /**
+   * Creates a new StatusBarEndboss instance.
+   * @param {object} world - The game world object.
+   */
   constructor(world) {
     super();
     this.world = world;
@@ -24,6 +28,9 @@ class StatusBarEndboss extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Animates the status bar to follow the endboss's x position.
+   */
   animate() {
     this.setStoppableInterval(() => {
       this.moveLeft();
@@ -31,6 +38,10 @@ class StatusBarEndboss extends MovableObject {
     }, 1000 / 25);
   }
 
+  /**
+   * Sets the health percentage and updates the status bar image.
+   * @param {number} percentage - The health percentage (0-100).
+   */
   setPercentage(percentage) {
     let images;
     this.percentage = percentage;
@@ -39,6 +50,10 @@ class StatusBarEndboss extends MovableObject {
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Resolves the image index based on the current health percentage.
+   * @returns {number} The index of the image to display.
+   */
   resolveImageIndex() {
     if (this.percentage == 100) {
       return 5;

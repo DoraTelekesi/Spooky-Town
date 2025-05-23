@@ -6,10 +6,19 @@ class DrawableObject {
   width;
   imageCache = {};
 
+  /**
+   * Loads a single image and assigns it to this object.
+   * @param {string} path - The path to the image file.
+   */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
   }
+
+  /**
+   * Loads multiple images and stores them in the image cache.
+   * @param {string[]} arr - Array of image paths to load.
+   */
   loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();
@@ -17,6 +26,11 @@ class DrawableObject {
       this.imageCache[path] = img;
     });
   }
+
+  /**
+   * Draws the object's image on the given canvas context.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   draw(ctx) {
     try {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -25,6 +39,11 @@ class DrawableObject {
       console.log("could not load image", e);
     }
   }
+
+  /**
+   * Draws a blue frame around the object if it is an Endboss, Character, or Enemy.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   drawFrame(ctx) {
     if (this instanceof Endboss || this instanceof Character || this instanceof Enemy) {
       ctx.beginPath();
@@ -34,8 +53,19 @@ class DrawableObject {
       ctx.stroke();
     }
   }
+
+  /**
+   * Draws a red frame using the object's offset if it is a Character, Enemy, CollectibleObject, ThrowableObject, or Endboss.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   drawFrameOffset(ctx) {
-    if (this instanceof Character || this instanceof Enemy || this instanceof CollectibleObject || this instanceof ThrowableObject || this instanceof Endboss) {
+    if (
+      this instanceof Character ||
+      this instanceof Enemy ||
+      this instanceof CollectibleObject ||
+      this instanceof ThrowableObject ||
+      this instanceof Endboss
+    ) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "red";
@@ -48,7 +78,12 @@ class DrawableObject {
       ctx.stroke();
     }
   }
-    drawFrameOffset2(ctx) {
+
+  /**
+   * Draws a purple frame using the object's offset2 if it is an Enemy or Character.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
+  drawFrameOffset2(ctx) {
     if (this instanceof Enemy || this instanceof Character) {
       ctx.beginPath();
       ctx.lineWidth = "5";

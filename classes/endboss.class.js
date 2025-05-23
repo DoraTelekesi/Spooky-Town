@@ -30,7 +30,6 @@ class Endboss extends MovableObject {
     "img/Golem_01/Idle/Golem_01_Idle_010.png",
     "img/Golem_01/Idle/Golem_01_Idle_011.png",
   ];
-
   IMAGES_WALKING = [
     "img/Golem_01/Walking/Golem_01_Walking_000.png",
     "img/Golem_01/Walking/Golem_01_Walking_001.png",
@@ -51,7 +50,6 @@ class Endboss extends MovableObject {
     "img/Golem_01/Walking/Golem_01_Walking_016.png",
     "img/Golem_01/Walking/Golem_01_Walking_017.png",
   ];
-
   IMAGES_JUMP = [
     "img/Golem_01/Jump Start/Golem_01_Jump Start_000.png",
     "img/Golem_01/Jump Start/Golem_01_Jump Start_001.png",
@@ -66,7 +64,6 @@ class Endboss extends MovableObject {
     "img/Golem_01/Jump Loop/Golem_01_Jump Loop_004.png",
     "img/Golem_01/Jump Loop/Golem_01_Jump Loop_005.png",
   ];
-
   IMAGES_HURT = [
     "img/Golem_01/Hurt/Golem_01_Hurt_000.png",
     "img/Golem_01/Hurt/Golem_01_Hurt_001.png",
@@ -81,7 +78,6 @@ class Endboss extends MovableObject {
     "img/Golem_01/Hurt/Golem_01_Hurt_010.png",
     "img/Golem_01/Hurt/Golem_01_Hurt_011.png",
   ];
-
   IMAGES_DEAD = [
     "img/Golem_01/Dying/Golem_01_Dying_000.png",
     "img/Golem_01/Dying/Golem_01_Dying_001.png",
@@ -99,7 +95,6 @@ class Endboss extends MovableObject {
     "img/Golem_01/Dying/Golem_01_Dying_013.png",
     "img/Golem_01/Dying/Golem_01_Dying_014.png",
   ];
-
   IMAGES_ATTACK = [
     "img/Golem_01/Attacking/Golem_01_Attacking_000.png",
     "img/Golem_01/Attacking/Golem_01_Attacking_001.png",
@@ -131,10 +126,16 @@ class Endboss extends MovableObject {
     this.applyGravity();
   }
 
+  /**
+   * Handles the walking animation for the endboss.
+   */
   handleWalk() {
     this.playAnimation(this.IMAGES_WALKING);
   }
 
+  /**
+   * Handles the hurt animation and sound for the endboss, then triggers a jump after a delay.
+   */
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
     AUDIO_BOSS.play();
@@ -144,6 +145,9 @@ class Endboss extends MovableObject {
     }, 500);
   }
 
+  /**
+   * Handles the death animation, stops all intervals, and shows the win modal.
+   */
   handleDeath() {
     this.playAnimation(this.IMAGES_DEAD);
     if (!this.gameWon) {
@@ -158,6 +162,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Handles the jump action for the endboss, including animation and speed change.
+   */
   handleJump() {
     if (!this.isJumping) {
       this.isJumping = true;
@@ -168,11 +175,13 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Animates the endboss by checking its state and triggering the appropriate handlers.
+   */
   animate() {
     this.setStoppableInterval(() => {
       if (this.isDead()) return this.handleDeath();
       this.handleFirstContact();
-      // if (this.isHurt()) return this.handleJump();
       if (this.isHurt()) return this.handleHurt();
       if (!this.isAboveGround()) {
         this.isJumping = false;
@@ -180,27 +189,51 @@ class Endboss extends MovableObject {
     }, 50);
   }
 
+  /**
+   * Checks if the character has entered the endboss area.
+   * @returns {boolean} True if the character is in the endboss area.
+   */
   characterStepsIntoEndbossArea() {
     if (this.firstContact) return true;
     if (this.world.character.x > 2520) {
       this.firstContact = true;
+      this.world.endbossFightStarted = true;
       return true;
     }
     return false;
   }
 
+  /**
+   * Changes the direction of the endboss based on the character's position.
+   */
+  changeDirection() {
+    if (this.world.character.x > this.x) {
+      this.otherDirection = false;
+      this.moveRight();
+    } else if (this.x > this.world.character.x) {
+      this.otherDirection = true;
+      this.moveLeft();
+    }
+  }
+
+  /**
+   * Handles the first contact logic between the character and the endboss.
+   */
   handleFirstContact() {
     if (this.characterStepsIntoEndbossArea()) {
       this.firstContact = true;
       if ((this.firstContact = true)) {
         this.playAnimation(this.IMAGES_WALKING);
-        this.moveLeft();
+        this.changeDirection();
       }
     } else {
       this.firstContact = false;
     }
   }
 
+  /**
+   * Handles the attack animation for the endboss.
+   */
   handleAttack() {
     this.playAnimation(this.IMAGES_ATTACK);
   }

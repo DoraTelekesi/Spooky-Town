@@ -7,13 +7,13 @@ class Enemy extends MovableObject {
   speedY;
   energy = 5;
   hasToTurn = false;
-
   offset = {
     top: 10,
-    left: 0,
+    left: 30,
     right: 50,
     bottom: 40,
   };
+
   offset2 = {
     top: 10,
     left: 40,
@@ -116,6 +116,11 @@ class Enemy extends MovableObject {
   currentImage = 0;
   type = "";
 
+  /**
+   * Creates a new Enemy object.
+   * @param {string} imagePath - The path to the enemy image.
+   * @param {string} type - The type of the enemy ("wraith-1", "wraith-2", or "wraith-3").
+   */
   constructor(imagePath, type) {
     super().loadImage(imagePath);
     this.type = type;
@@ -133,6 +138,9 @@ class Enemy extends MovableObject {
     }
   }
 
+  /**
+   * Changes the direction of the enemy based on its position.
+   */
   changeDirection() {
     if (this.otherDirection) {
       if (this.x > 20) {
@@ -149,6 +157,9 @@ class Enemy extends MovableObject {
     }
   }
 
+  /**
+   * Animates the enemy by setting intervals for movement and image changes.
+   */
   animate() {
     this.setStoppableInterval(() => {
       if (this.type === "wraith-2") {
@@ -162,6 +173,9 @@ class Enemy extends MovableObject {
     this.playEnemyImages();
   }
 
+  /**
+   * Plays the appropriate animation images for the enemy type.
+   */
   playEnemyImages() {
     this.setStoppableInterval(() => {
       if (this.type === "wraith-1") {
@@ -174,6 +188,9 @@ class Enemy extends MovableObject {
     }, 100);
   }
 
+  /**
+   * Handles movement and animation for the first enemy type.
+   */
   firstEnemyMovement() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD_WRAITH_1);
@@ -182,6 +199,9 @@ class Enemy extends MovableObject {
     }
   }
 
+  /**
+   * Handles movement and animation for the second enemy type.
+   */
   secondEnemyMovement() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD_WRAITH_2);
@@ -190,6 +210,9 @@ class Enemy extends MovableObject {
     }
   }
 
+  /**
+   * Handles movement and animation for the third enemy type.
+   */
   thirdEnemyMovement() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD_WRAITH_3);

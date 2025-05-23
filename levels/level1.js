@@ -1,4 +1,8 @@
 let level1;
+
+/**
+ * Initializes the first level by creating all enemies, clouds, collectibles, backgrounds, and status bars.
+ */
 function initLevel() {
   level1 = new Level(
     [

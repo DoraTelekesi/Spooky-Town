@@ -26,6 +26,12 @@ class StatusBar extends DrawableObject {
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png",
   ];
 
+  /**
+   * Creates a new StatusBar instance.
+   * @param {number} x - The x-coordinate of the status bar.
+   * @param {number} y - The y-coordinate of the status bar.
+   * @param {string} type - The type of the status bar ("health", "bottle", or "coin").
+   */
   constructor(x, y, type) {
     super();
     this.loadImages(this.IMAGES_HEALTH);
@@ -43,6 +49,11 @@ class StatusBar extends DrawableObject {
     }
   }
 
+  /**
+   * Sets the percentage value and updates the status bar image based on the type.
+   * @param {number} percentage - The percentage value (0-100).
+   * @param {string} type - The type of the status bar ("health", "bottle", or "coin").
+   */
   setPercentage(percentage, type) {
     this.percentage = percentage;
     if (type === "health") {
@@ -58,6 +69,11 @@ class StatusBar extends DrawableObject {
       this.img = this.imageCache[path];
     }
   }
+
+  /**
+   * Resolves the image index based on the current percentage.
+   * @returns {number} The index of the image to display.
+   */
   resolveImageIndex() {
     if (this.percentage == 100) {
       return 5;

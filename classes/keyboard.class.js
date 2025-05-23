@@ -6,10 +6,16 @@ class Keyboard {
   SPACE = false;
   D = false;
 
+  /**
+   * Creates a new Keyboard instance and binds button press events.
+   */
   constructor() {
     this.bindBtnPressEvent();
   }
 
+  /**
+   * Binds touch events to the on-screen control buttons to update keyboard state.
+   */
   bindBtnPressEvent() {
     document.getElementById("btn-left-resp").addEventListener("touchstart", (e) => {
       e.preventDefault();

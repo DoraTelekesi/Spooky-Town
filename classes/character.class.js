@@ -14,7 +14,7 @@ class Character extends MovableObject {
     top: 50,
     left: 30,
     right: 105,
-    bottom: 85,
+    bottom: 55,
   };
   energy = 100;
   canBounce = true;
@@ -124,6 +124,9 @@ class Character extends MovableObject {
     this.applyGravity();
   }
 
+  /**
+   * Handles character movement and camera following based on keyboard input.
+   */
   navigateCharacter() {
     this.setStoppableInterval(() => {
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -138,15 +141,21 @@ class Character extends MovableObject {
         this.jump();
         AUDIO_JUMP.play();
       }
-      this.world.camera_x = -this.x + 50;
+      this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
   }
 
+  /**
+   * Plays the hurt animation and sound.
+   */
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
     AUDIO_HURT.play();
   }
 
+  /**
+   * Handles character death, stops all intervals, and shows fail modal.
+   */
   handleDeath() {
     this.gameFailed = true;
     this.playAnimation(this.IMAGES_DEAD);
@@ -160,17 +169,25 @@ class Character extends MovableObject {
     }, 100);
   }
 
+  /**
+   * Plays the jump animation and pauses running sound.
+   */
   handleJump() {
     this.playAnimation(this.IMAGES_JUMPING);
-
     AUDIO_RUN.pause();
   }
 
+  /**
+   * Plays the walking animation and running sound.
+   */
   handleWalk() {
     this.playAnimation(this.IMAGES_WALKING);
     AUDIO_RUN.play();
   }
 
+  /**
+   * Animates the character based on its state (hurt, dead, jumping, walking, idle).
+   */
   animateCharacter() {
     this.navigateCharacter();
     this.setStoppableInterval(() => {
