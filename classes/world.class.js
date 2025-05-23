@@ -70,6 +70,9 @@ class World {
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isCollidingOffset(enemy) && !this.character.isHurt()) {
+        if (enemy instanceof Endboss) {
+          this.character.hitByEndboss();
+        }
         this.character.hit();
         this.level.statusbar[0].setPercentage(this.character.energy, "health");
       }

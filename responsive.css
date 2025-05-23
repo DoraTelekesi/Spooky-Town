@@ -18,13 +18,75 @@
 }
 
 @media only screen and (orientation: landscape) {
+  body {
+    overflow-y: hidden;
+  }
   .turn-device {
     display: none !important;
   }
 
-  .panel,
+  .panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 4;
+    top: 80%;
+    width: 100%;
+  }
+
   .panel-wrapper {
-    display: flex !important;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .btn-left-resp,
+  .btn-right-resp,
+  .btn-jump-resp,
+  .btn-throw-resp {
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 50%;
+    padding: 7px;
+    background-color: rgba(194, 181, 8, 0.808);
+    box-shadow: 5px 5px 5px rgb(56, 24, 24);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-left-resp:hover,
+  .btn-right-resp:hover,
+  .btn-jump-resp:hover,
+  .btn-throw-resp:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+  }
+
+  .btn-resp {
+    width: 35px;
+    height: 35px;
+  }
+
+  .btn-left-resp-img {
+    transform: rotate(180deg);
+  }
+
+  .btn-jump-resp-img {
+    transform: rotate(270deg);
+  }
+  .canvas-container:fullscreen .canvas-icons {
+    top: 10%;
+    right: 5%;
+  }
+  .canvas-icons {
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    left: auto;
+    transform: translateY(-50%);
+    z-index: 9;
   }
 }
 @media only screen and (max-height: 770px) and (max-width: 1050px) {
@@ -46,7 +108,7 @@
     align-items: center;
     justify-content: space-between;
     z-index: 4;
-    top: 95%;
+    top: 78%;
     width: 100%;
   }
 
@@ -128,6 +190,11 @@
   }
   .impressum-modal {
     width: 80%;
+    height: 70%;
+    top: 50%;
+  }
+  .impressum-modal p {
+    margin: 0;
   }
   .canvas-wrapper {
     position: relative;
@@ -152,12 +219,12 @@
     align-items: center;
     justify-content: space-between;
     z-index: 99999;
-    top: 90%;
+    top: 78%;
     width: 100%;
   }
   .impressum-modal {
     font-size: 16px;
-    top: 65%;
+    top: 63%;
   }
 
   .panel-wrapper {
@@ -260,13 +327,13 @@
     z-index: 4;
   }
   .impressum-modal {
-    z-index: 5;
+    z-index: 6;
     top: 65%;
   }
 }
 @media only screen and (max-width: 520px) {
   .panel {
-    top: 85%;
+    top: 78%;
   }
   .btn-left-resp,
   .btn-right-resp,
@@ -299,7 +366,7 @@
   .instructions,
   .impressum-modal {
     font-size: 16px;
-    z-index: 5;
+    z-index: 6;
   }
   .impressum-modal {
     height: 70%;
@@ -331,7 +398,7 @@
     height: 20px;
   }
   .impressum-modal {
-    height: 80%;
+    height: 70%;
   }
 }
 @media only screen and (max-width: 400px) {
@@ -350,10 +417,10 @@
     width: 17px;
     height: 17px;
   }
-  /* .canvas-wrapper .fail-modal {
-    width: 350px;
-    height: 220px;
-  } */
+  .impressum-modal {
+    font-size: 13px;
+  }
+
   .lost-replay,
   .win-replay {
     font-size: 15px;
@@ -366,9 +433,6 @@
   h1 {
     display: none;
   }
-  /* canvas {
-    height: 100vh;
-  } */
 }
 @media only screen and (max-height: 480px) {
   canvas {

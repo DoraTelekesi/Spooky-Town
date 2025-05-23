@@ -123,7 +123,7 @@ class MovableObject extends DrawableObject {
     const enemyTop = mo.y + enemyOffset.top;
     const horizontalOverlap = charRight > enemyLeft && charLeft < enemyRight;
     const verticalFromAbove = charBottom > enemyTop + margin && charBottom < enemyTop + 20;
-    return horizontalOverlap && verticalFromAbove;
+    return horizontalOverlap && verticalFromAbove && isFalling;
   }
 
   /**
@@ -131,6 +131,15 @@ class MovableObject extends DrawableObject {
    */
   hit() {
     this.energy -= 5;
+    if (this.energy < 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
+    }
+  }
+
+  hitByEndboss() {
+    this.energy -= 20;
     if (this.energy < 0) {
       this.energy = 0;
     } else {

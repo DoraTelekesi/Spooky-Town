@@ -11,10 +11,17 @@ class Keyboard {
    */
   constructor() {
     this.bindBtnPressEvent();
+    this.bindBtnPressEventEnd();
   }
 
   /**
-   * Binds touch events to the on-screen control buttons to update keyboard state.
+   * Binds touchstart events to the on-screen control buttons to set the corresponding
+   * keyboard state properties to true when a button is pressed.
+   *
+   * - "btn-left-resp": Sets LEFT to true.
+   * - "btn-right-resp": Sets RIGHT to true.
+   * - "btn-jump-resp": Sets SPACE to true.
+   * - "btn-throw-resp": Sets D to true.
    */
   bindBtnPressEvent() {
     document.getElementById("btn-left-resp").addEventListener("touchstart", (e) => {
@@ -33,6 +40,18 @@ class Keyboard {
       e.preventDefault();
       this.D = true;
     });
+  }
+
+  /**
+   * Binds touchend events to the on-screen control buttons to set the corresponding
+   * keyboard state properties to false when a button is released.
+   *
+   * - "btn-left-resp": Sets LEFT to false.
+   * - "btn-right-resp": Sets RIGHT to false.
+   * - "btn-jump-resp": Sets SPACE to false.
+   * - "btn-throw-resp": Sets D to false.
+   */
+  bindBtnPressEventEnd() {
     document.getElementById("btn-left-resp").addEventListener("touchend", (e) => {
       e.preventDefault();
       this.LEFT = false;

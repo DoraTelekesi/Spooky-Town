@@ -114,6 +114,22 @@ function exitfullscreen() {
   }
 }
 
+/**
+ * Handles keyboard events for controlling the game character.
+ *
+ * - Sets the corresponding property on the `keyboard` object to `true` when a key is pressed (keydown).
+ * - Sets the corresponding property on the `keyboard` object to `false` when a key is released (keyup).
+ *
+ * Key mappings:
+ *   - ArrowRight (39): Move right
+ *   - ArrowUp (38): Move up/jump
+ *   - ArrowLeft (37): Move left
+ *   - ArrowDown (40): Move down/crouch
+ *   - Space (32): Jump/action
+ *   - D (68): Throw bottle/action
+ */
+
+// Keydown event: set key state to true
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 39) {
     keyboard.RIGHT = true;
@@ -135,6 +151,7 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+// Keyup event: set key state to false
 window.addEventListener("keyup", (e) => {
   if (e.keyCode == 39) {
     keyboard.RIGHT = false;
