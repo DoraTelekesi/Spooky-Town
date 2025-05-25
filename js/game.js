@@ -124,7 +124,9 @@ function togglePauseGame() {
   } else {
     resumeGame();
     document.getElementById("btn-pause").innerHTML = "PAUSE";
-    playAllAudio();
+    if (localStorage.getItem("musicMuted") === "false") {
+      playAllAudio();
+    }
     gamePaused = false;
     document.getElementById("pause-overlay").classList.add("hidden");
   }
