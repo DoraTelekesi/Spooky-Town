@@ -7,7 +7,7 @@ class StatusBar extends DrawableObject {
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png",
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png",
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png",
-    "img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png",
+    "img/7_statusbars/1_statusbar/2_statusbar_health/green/100-fixed.png",
   ];
   IMAGES_COIN = [
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png",
@@ -77,9 +77,9 @@ class StatusBar extends DrawableObject {
   resolveImageIndex() {
     if (this.percentage == 100) {
       return 5;
-    } else if (this.percentage > 80) {
+    } else if (this.percentage > 85) {
       return 4;
-    } else if (this.percentage > 60) {
+    } else if (this.percentage > 65) {
       return 3;
     } else if (this.percentage > 30) {
       return 2;

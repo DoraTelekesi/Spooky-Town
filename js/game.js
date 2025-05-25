@@ -21,6 +21,8 @@ AUDIO_BACKGROUND.volume = 0.1;
 AUDIO_FAIL.volume = 0.05;
 AUDIO_WIN.volume = 0.05;
 
+let gamePaused = false;
+
 /**
  * Starts the game by initializing the level, hiding modals, showing icons,
  * creating the world, and playing background music if not muted.
@@ -36,6 +38,7 @@ function startGame() {
   document.getElementById("opening-modal").classList.add("dp-none");
   document.getElementById("overlay").classList.add("hidden");
   document.getElementById("canvas-icons").classList.remove("hidden");
+  document.getElementById("pause-overlay").classList.add("hidden");
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
   if (localStorage.getItem("musicMuted") !== "true") {
@@ -47,10 +50,19 @@ function startGame() {
  * Restarts the game by hiding modals, resetting audio, and starting the game again.
  */
 function restartGame() {
+  if (world && world.movableObjects) {
+    world.movableObjects.forEach((obj) => {
+      if (typeof obj.stopInterval === "function") {
+        obj.stopInterval();
+      }
+    });
+  }
   document.getElementById("fail-modal").classList.add("hidden");
   document.getElementById("overlay").classList.add("hidden");
   document.getElementById("win-modal").classList.add("hidden");
   document.getElementById("overlay").classList.add("hidden");
+  document.getElementById("pause-overlay").classList.add("hidden");
+  AUDIO_BACKGROUND.play();
   AUDIO_BACKGROUND.currentTime = 0;
   startGame();
 }
@@ -61,6 +73,48 @@ function restartGame() {
 function init() {
   document.getElementById("canvas-icons").classList.add("hidden");
   document.getElementById("overlay").classList.add("hidden");
+  document.getElementById("pause-overlay").classList.add("hidden");
+}
+
+function stopGame() {
+  if (world && world.movableObjects) {
+    world.movableObjects.forEach((obj) => {
+      if (typeof obj.stopInterval === "function") {
+        obj.stopInterval();
+      }
+    });
+  }
+}
+
+function resumeGame() {
+  if (world) {
+    if (typeof world.startInterval === "function") {
+      world.startInterval();
+    }
+    if (world.movableObjects) {
+      world.movableObjects.forEach((obj) => {
+        if (typeof obj.startInterval === "function") {
+          obj.startInterval();
+        }
+      });
+    }
+  }
+}
+
+function togglePauseGame() {
+  if (!gamePaused) {
+    stopGame();
+    document.getElementById("btn-pause").innerHTML = "RESUME";
+    muteAllAudio();
+    gamePaused = true;
+    document.getElementById("pause-overlay").classList.remove("hidden");
+  } else {
+    resumeGame();
+    document.getElementById("btn-pause").innerHTML = "PAUSE";
+    playAllAudio();
+    gamePaused = false;
+    document.getElementById("pause-overlay").classList.add("hidden");
+  }
 }
 
 /**

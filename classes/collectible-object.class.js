@@ -28,9 +28,12 @@ class CollectibleObject extends MovableObject {
     this.x = 200 + Math.random() * 2400;
     this.y = y;
     this.type = type;
-    this.animate();
+    this.startInterval();
   }
 
+  startInterval() {
+    this.animate();
+  }
   /**
    * Loads the images and sets the offset for a bottle collectible object.
    * Loads the main bottle image and all bottle animation images,

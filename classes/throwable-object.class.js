@@ -37,6 +37,10 @@ class ThrowableObject extends MovableObject {
     this.y = y;
     this.height = 80;
     this.width = 90;
+    this.startInterval();
+  }
+
+  startInterval() {
     this.throw();
   }
 

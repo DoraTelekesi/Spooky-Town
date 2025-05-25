@@ -26,7 +26,7 @@ class World {
     this.world = world;
     this.draw();
     this.setWorld();
-    this.run();
+    this.startInterval();
     this.endboss = new Endboss(this);
     this.level.enemies.push(this.endboss);
     this.movableObjects = [
@@ -49,7 +49,7 @@ class World {
   /**
    * Starts the main game loops for collision checks and collectible updates.
    */
-  run() {
+  startInterval() {
     this.character.setStoppableInterval(() => {
       this.checkCollisionFromAbove();
     }, 1000 / 50);
@@ -69,12 +69,16 @@ class World {
    */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isCollidingOffset(enemy) && !this.character.isHurt()) {
+      if (this.character.isCollidingOffset(enemy)) {
         if (enemy instanceof Endboss) {
           this.character.hitByEndboss();
+          this.level.statusbar[0].setPercentage(this.character.energy, "health");
+          console.log(this.character.energy, "boss damage");
+        } else {
+          this.character.hit();
+          console.log(this.character.energy, "small enemy damage");
+          this.level.statusbar[0].setPercentage(this.character.energy, "health");
         }
-        this.character.hit();
-        this.level.statusbar[0].setPercentage(this.character.energy, "health");
       }
     });
   }

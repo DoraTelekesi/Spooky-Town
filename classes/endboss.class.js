@@ -122,10 +122,13 @@ class Endboss extends MovableObject {
     this.x = 3100;
     this.y = 70;
     this.speed = 2 + Math.random() * 0.5;
+    this.startInterval();
+  }
+
+  startInterval() {
     this.animate();
     this.applyGravity();
   }
-
   /**
    * Handles the walking animation for the endboss.
    */

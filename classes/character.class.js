@@ -120,6 +120,10 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
+    this.startInterval();
+  }
+
+  startInterval() {
     this.animateCharacter();
     this.applyGravity();
   }
@@ -166,6 +170,7 @@ class Character extends MovableObject {
       AUDIO_BACKGROUND.pause();
       AUDIO_FAIL.play();
       AUDIO_RUN.pause();
+      AUDIO_HURT.pause();
     }, 100);
   }
 

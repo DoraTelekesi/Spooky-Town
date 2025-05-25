@@ -91,6 +91,7 @@
           </div>
         </div>
         <div class="canvas-wrapper">
+          <div class="pause-overlay" id="pause-overlay"><p>GAME PAUSED</p></div>
           <canvas id="canvas" width="870px" height="500px"></canvas>
           <div class="canvas-icons" id="canvas-icons">
             <img class="icons" onclick="restartGame()" src="./img/icons/replay.png" alt="replay game" />
@@ -131,6 +132,9 @@
             <div class="btn-right-resp" id="btn-right-resp">
               <img class="btn-resp btn-right-resp-img" src="./img/icons/play-solid.svg" alt="" />
             </div>
+          </div>
+          <div class="panel-wrapper">
+            <div class="btn-pause" id="btn-pause" onclick="togglePauseGame()"">PAUSE</div>
           </div>
           <div class="panel-wrapper">
             <div class="btn-jump-resp" id="btn-jump-resp">

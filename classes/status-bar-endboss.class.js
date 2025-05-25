@@ -25,9 +25,12 @@ class StatusBarEndboss extends MovableObject {
     this.height = 60;
     this.setPercentage(100);
     this.speed = 0.5;
-    this.animate();
+    this.startInterval();
   }
 
+  startInterval() {
+    this.animate();
+  }
   /**
    * Animates the status bar to follow the endboss's x position.
    */

@@ -132,12 +132,15 @@ class Enemy extends MovableObject {
     this.loadImages(this.IMAGES_DEAD_WRAITH_3);
     this.x = 400 + Math.random() * 2400;
     this.speed = 0.05 + Math.random() * 0.5;
+    this.startInterval();
+  }
+
+  startInterval() {
     this.animate();
     if (this.type === "wraith-2") {
       this.applyGravity();
     }
   }
-
   /**
    * Changes the direction of the enemy based on its position.
    */
