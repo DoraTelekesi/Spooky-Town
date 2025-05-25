@@ -110,6 +110,12 @@ class Endboss extends MovableObject {
     "img/Golem_01/Attacking/Golem_01_Attacking_011.png",
   ];
 
+  /**
+   * Creates a new Endboss instance.
+   * Loads all necessary images, sets initial position and speed,
+   * and starts the animation and gravity intervals.
+   * @param {object} world - The game world object.
+   */
   constructor(world) {
     super().loadImage(this.IMAGES_STANDING[0]);
     this.world = world;
@@ -125,6 +131,10 @@ class Endboss extends MovableObject {
     this.startInterval();
   }
 
+  /**
+   * Starts the endboss's animation and applies gravity.
+   * Calls the animate method to handle state-based animation and logic.
+   */
   startInterval() {
     this.animate();
     this.applyGravity();

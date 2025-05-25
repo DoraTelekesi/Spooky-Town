@@ -40,6 +40,10 @@ class ThrowableObject extends MovableObject {
     this.startInterval();
   }
 
+  /**
+   * Starts the throwable object's animation and movement interval.
+   * Calls the throw method to begin its trajectory and animation.
+   */
   startInterval() {
     this.throw();
   }

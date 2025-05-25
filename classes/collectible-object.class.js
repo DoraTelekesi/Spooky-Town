@@ -31,6 +31,10 @@ class CollectibleObject extends MovableObject {
     this.startInterval();
   }
 
+    /**
+   * Starts the collectible object's animation interval.
+   * Calls the animate method to begin cycling through images.
+   */
   startInterval() {
     this.animate();
   }

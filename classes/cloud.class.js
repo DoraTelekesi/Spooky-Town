@@ -12,7 +12,18 @@ class Cloud extends MovableObject {
     super().loadImage(imagePath);
     this.x = x;
     this.width = 729;
-    this.animate();
+    this.startInterval();
+  }
+
+  /**
+   * Starts the cloud's movement animation interval.
+   */
+  startInterval() {
+    if (!this.intervalId) {
+      this.intervalId = setInterval(() => {
+        this.x -= this.speed;
+      }, 100);
+    }
   }
 
   /**
@@ -29,5 +40,15 @@ class Cloud extends MovableObject {
     setInterval(() => {
       this.x -= this.speed;
     }, 100);
+  }
+
+  /**
+   * Stops the cloud's movement animation interval.
+   */
+  stopInterval() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
   }
 }

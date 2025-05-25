@@ -19,7 +19,7 @@ class StatusBarEndboss extends MovableObject {
     super();
     this.world = world;
     this.loadImages(this.IMAGES_ENDBOSS_HEALTH);
-    this.y = 60;
+    this.y = 140;
     this.x = 3300;
     this.width = 200;
     this.height = 60;
@@ -28,6 +28,10 @@ class StatusBarEndboss extends MovableObject {
     this.startInterval();
   }
 
+  /**
+   * Starts the status bar's animation interval.
+   * Calls the animate method to update the status bar position and image.
+   */
   startInterval() {
     this.animate();
   }
@@ -37,7 +41,7 @@ class StatusBarEndboss extends MovableObject {
   animate() {
     this.setStoppableInterval(() => {
       this.moveLeft();
-      this.x = world.endboss.x;
+      this.x = world.endboss.x + 250;
     }, 1000 / 25);
   }
 

@@ -113,6 +113,10 @@ class Character extends MovableObject {
   currentImage = 0;
   world;
 
+  /**
+   * Creates a new Character instance.
+   * Loads all necessary images and starts the animation and gravity intervals.
+   */
   constructor() {
     super().loadImage("img/Skeleton_Warrior_3/Idle/0_Skeleton_Warrior_Idle_000.png");
     this.loadImages(this.IMAGES_STANDING);
@@ -123,6 +127,10 @@ class Character extends MovableObject {
     this.startInterval();
   }
 
+  /**
+   * Starts the character's animation and applies gravity.
+   * Calls animateCharacter and applyGravity methods.
+   */
   startInterval() {
     this.animateCharacter();
     this.applyGravity();

@@ -76,6 +76,10 @@ function init() {
   document.getElementById("pause-overlay").classList.add("hidden");
 }
 
+/**
+ * Stops all intervals for movable objects in the world.
+ * Used to pause the game logic for all entities that move or animate.
+ */
 function stopGame() {
   if (world && world.movableObjects) {
     world.movableObjects.forEach((obj) => {
@@ -86,6 +90,10 @@ function stopGame() {
   }
 }
 
+/**
+ * Resumes all intervals for the world and its movable objects.
+ * Used to continue the game logic after a pause.
+ */
 function resumeGame() {
   if (world) {
     if (typeof world.startInterval === "function") {
@@ -101,6 +109,11 @@ function resumeGame() {
   }
 }
 
+/**
+ * Toggles the paused state of the game.
+ * - Pauses or resumes the game logic and audio.
+ * - Updates the pause button text and pause overlay visibility.
+ */
 function togglePauseGame() {
   if (!gamePaused) {
     stopGame();

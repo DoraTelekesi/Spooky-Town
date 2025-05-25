@@ -135,6 +135,11 @@ class Enemy extends MovableObject {
     this.startInterval();
   }
 
+  /**
+   * Starts the enemy's animation interval.
+   * Calls the animate method to begin movement and animation.
+   * If the enemy is of type "wraith-2", also applies gravity.
+   */
   startInterval() {
     this.animate();
     if (this.type === "wraith-2") {
