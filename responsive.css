@@ -312,6 +312,13 @@
 }
 
 @media only screen and (max-width: 620px) {
+  .btn-pause {
+    font-size: 19px;
+    height: 30px;
+  }
+  .pause-overlay {
+    font-size: 30px;
+  }
   .btn-left-resp,
   .btn-right-resp,
   .btn-jump-resp,
@@ -386,6 +393,13 @@
   }
 }
 @media only screen and (max-width: 440px) {
+  .btn-pause {
+    font-size: 17px;
+    height: 25px;
+  }
+  .pause-overlay {
+    font-size: 25px;
+  }
   .btn-left-resp,
   .btn-right-resp,
   .btn-jump-resp,
