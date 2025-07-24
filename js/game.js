@@ -39,6 +39,7 @@ function startGame() {
   document.getElementById("overlay").classList.add("hidden");
   document.getElementById("canvas-icons").classList.remove("hidden");
   document.getElementById("pause-overlay").classList.add("hidden");
+  document.getElementById("panel").classList.remove("hidden");
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
   if (localStorage.getItem("musicMuted") !== "true") {
@@ -74,6 +75,7 @@ function init() {
   document.getElementById("canvas-icons").classList.add("hidden");
   document.getElementById("overlay").classList.add("hidden");
   document.getElementById("pause-overlay").classList.add("hidden");
+  document.getElementById("panel").classList.add("hidden");
 }
 
 /**
