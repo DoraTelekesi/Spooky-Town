@@ -73,10 +73,8 @@ class World {
         if (enemy instanceof Endboss) {
           this.character.hitByEndboss();
           this.level.statusbar[0].setPercentage(this.character.energy, "health");
-          console.log(this.character.energy, "boss damage");
         } else {
           this.character.hit();
-          console.log(this.character.energy, "small enemy damage");
           this.level.statusbar[0].setPercentage(this.character.energy, "health");
         }
       }
